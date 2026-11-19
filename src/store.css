@@ -756,3 +756,8 @@ html body details.dkq-item[open]>summary.dkq-q::after{background-image:{{icon:ch
 html body label.dkf-chip>span::before{background-image:{{icon:check-circle:filled:#0B1023}}!important;background-size:18px 18px!important}
 html body figure.dkr-card>span.dkr-stars{background-image:{{icon:star:filled:#F48102}}!important}
 html body div.dkc-txt>a.dkc-btn::after{content:""!important;display:inline-block;width:16px;height:16px;margin-left:8px;vertical-align:-2px;background-color:currentColor;-webkit-mask:{{icon:arrow-right:#000000}} center/16px no-repeat;mask:{{icon:arrow-right:#000000}} center/16px no-repeat}
+
+/* 53-our-approach-icons (19 Nov) · Our approach page /our-approach (Figma 513:600 / 513:1119) · Line icons, colour from the element */
+.dkoa-i{display:inline-block;flex:none;width:20px;height:20px;background-color:currentColor;-webkit-mask:{{icon:arrow-right:#000000}} center/20px no-repeat;mask:{{icon:arrow-right:#000000}} center/20px no-repeat}
+.dkoa-faq summary::after{content:"";flex:none;width:20px;height:20px;background-color:#565D70;-webkit-mask:{{icon:chevron-down:#000000}} center/20px no-repeat;mask:{{icon:chevron-down:#000000}} center/20px no-repeat;transition:transform .2s}
+.dkoa-faq details[open]>summary::after{transform:rotate(180deg)}
