@@ -14,15 +14,29 @@ function chip(name,href,sel){var a=el('a','dkc-chip'+(sel?' is-sel':''),name);a.
 function index(){
  var items=[].slice.call(d.querySelectorAll('.blog-post-item'));if(!items.length||d.querySelector('.dkc-row'))return;
  var q=(location.search.match(/[?&]topic=([a-z0-9-]+)/)||[])[1]||'';if(!B.categories[q])q='';
- items.forEach(function(it){var a=it.querySelector('a[href*="/blog/"]'),s=slugOf(a&&a.getAttribute('href')),c=B.postCategory[s];if(!c)return;it.setAttribute('data-topic',c);
-  var w=it.querySelector('.blog-post-text-wrapper');if(w)w.setAttribute('data-dkc',B.categories[c]);});
+ function tag(it){var a=it.querySelector('a[href*="/blog/"]'),s=slugOf(a&&a.getAttribute('href')),c=B.postCategory[s];it.setAttribute('data-slug',s);if(!c)return;it.setAttribute('data-topic',c);
+  var w=it.querySelector('.blog-post-text-wrapper');if(w)w.setAttribute('data-dkc',B.categories[c]);}
+ items.forEach(tag);
  var row=el('nav','dkc-row');row.setAttribute('aria-label','Blog categories');
  var all=chip('All',BASE,!q);row.appendChild(all);
  Object.keys(B.categories).forEach(function(k){row.appendChild(chip(B.categories[k],BASE+'?topic='+k,q===k));});
  var wrap=el('div','dkc-wrap');wrap.appendChild(row);
  var list=items[0].parentNode;list.parentNode.insertBefore(wrap,list);
- function apply(t){items.forEach(function(it){it.style.display=!t||it.getAttribute('data-topic')===t?'':'none';});
+ var pager=d.querySelector('.pagination-wrapper');
+ /* Payhip shows 15 posts a page (?&page=15). A topic filter needs every page, so the other pages are fetched once and their cards added (hidden under "All"). */
+ var more=null;
+ function loadAll(){if(more)return more;var seen={};items.forEach(function(it){seen[it.getAttribute('data-slug')]=1;});
+  more=new Promise(function(done){var n=0;function next(url){if(!url||n++>20)return done();
+   fetch(url,{credentials:'same-origin'}).then(function(r){return r.text();}).then(function(t){var doc=new DOMParser().parseFromString(t,'text/html');
+    [].slice.call(doc.querySelectorAll('.blog-post-item')).forEach(function(x){var it=d.importNode(x,true);tag(it);var s=it.getAttribute('data-slug');if(!s||seen[s])return;seen[s]=1;it.classList.add('dkc-x');it.style.display='none';list.appendChild(it);items.push(it);});
+    var nx=[].slice.call(doc.querySelectorAll('.pagination a[href]')).filter(function(l){return /next/i.test(l.textContent)&&l.getAttribute('href')!=='#';})[0];
+    next(nx?nx.href.replace(/^https?:\/\/[^\/]+/,''):null);}).catch(function(){done();});}
+   next(BASE);});return more;}
+ var cur='';
+ function show(){var t=cur;items.forEach(function(it){var x=it.classList.contains('dkc-x');it.style.display=t?(it.getAttribute('data-topic')===t?'':'none'):(x?'none':'');});
+  if(pager)pager.style.display=t?'none':'';
   [].slice.call(row.children).forEach(function(c){var on=(c.href.indexOf('topic='+t)>-1&&t)||(!t&&c===all);c.classList.toggle('is-sel',!!on);if(on)c.setAttribute('aria-current','true');else c.removeAttribute('aria-current');});}
+ function apply(t){cur=t;show();if(t)loadAll().then(function(){if(cur===t)show();});}
  row.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;e.preventDefault();var t=(a.href.match(/topic=([a-z0-9-]+)/)||[])[1]||'';apply(t);try{history.replaceState(null,'',t?BASE+'?topic='+t:BASE);}catch(_){}});
  apply(q);
 }
