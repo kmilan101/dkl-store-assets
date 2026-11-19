@@ -18,7 +18,8 @@ const CFG = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 const SITE = 'https://doodlekidsland.com';
 const MODE = 'preflight';
 const FIX = 'tests/fixtures';
-const fixtures = fs.existsSync(FIX) ? fs.readdirSync(FIX).filter(f => f.endsWith('.html')) : [];
+const PAGES = fs.existsSync(path.join(FIX, 'pages.json')) ? JSON.parse(fs.readFileSync(path.join(FIX, 'pages.json'), 'utf8')).pages : {};
+const fixtures = Object.keys(PAGES).filter(f => fs.existsSync(path.join(FIX, f)));
 if (!fixtures.length) { console.log('No saved pages in tests/fixtures yet: visual safety test skipped.'); process.exit(0); }
 const BASE = CFG.baseUrl.replace(/\/$/, '');
 const OUT = 'test-results';
@@ -106,7 +107,7 @@ async function run(browser, url, vpName, variant, fixtureFile) {
 
 const browser = await chromium.launch();
 for (const fx of fixtures) {
-  const url = SITE + '/__fixture/' + fx.replace(/\.html$/, '');
+  const url = SITE + PAGES[fx] + '?dklfx=USD';
   for (const vp of Object.keys(VIEWPORTS)) {
     const tag = fx.replace(/\.html$/, '') + '-' + vp;
     try {

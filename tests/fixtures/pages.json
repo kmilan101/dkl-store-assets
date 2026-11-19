@@ -1,0 +1,12 @@
+{
+  "_help": "Saved copies of real store pages for the safety test (the live site blocks robots). Refresh them after big site changes: Claude saves new copies from Chrome.",
+  "savedAt": "2026-11-19T08:05:32Z",
+  "pages": {
+    "home.html": "/",
+    "product-x01.html": "/b/3nQSY",
+    "collection-coloring.html": "/collection/coloring-pages",
+    "contact.html": "/contact",
+    "teachers.html": "/teachers",
+    "blog-index.html": "/blog/learning-at-home"
+  }
+}
