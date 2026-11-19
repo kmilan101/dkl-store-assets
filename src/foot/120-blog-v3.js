@@ -36,7 +36,7 @@ function post(slug){
  meta.textContent=txt(meta).replace(/\s*·\s*\d+\s*min read$/i,'');
  var c=B.postCategory[slug],row=el('div','dkbd');
  if(c)row.appendChild(chip(B.categories[c],BASE+'?topic='+c,false));
- [read+' min read',listen+' min listen'].concat(src?[src+' sources']:[]).forEach(function(s){row.appendChild(el('span','dkbd-i',s));});
+ [read+' min read',listen+' min listen'].concat(src?[src+(src===1?' source':' sources')]:[]).forEach(function(s){row.appendChild(el('span','dkbd-i',s));});
  meta.parentNode.insertBefore(row,meta.nextSibling);
  if('speechSynthesis' in window&&window.SpeechSynthesisUtterance)player(p,body,row,listen);
 }
