@@ -11,3 +11,4 @@ Rules:
 - Run `npm run build` before pushing. It must pass with no errors.
 - If a change touches `src/inline/` (the Payhip boxes), Milan must paste the new `dist/payhip/*` snippets into both stores. Check live pages side by side in Chrome before and after.
 - Live code from before this repo is backed up on the SSD: `13 - Website (Payhip store)/06 - Embed Code/_backup-live-2026-11-19/`.
+- Product changes (Payhip, not code): after every product update, check the live product in BOTH stores right away (US, and India once live) against the master product sheet, then log it in the sheet's Change log. Milan chose this over a weekly check (19 Nov 2026).
