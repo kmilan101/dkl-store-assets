@@ -14,6 +14,7 @@ Both stores load the same files from here. Change a file in `src/`, push, and bo
 3. GitHub runs **Build, safety test, publish** (see the Actions tab):
    - **Build:** joins and shrinks the files. It stops on JavaScript errors, on files over their size budget, or on snippets over Payhip's 65,535-character box limit.
    - **Safety test:** uses saved copies of real store pages in `tests/fixtures/`. Payhip's Cloudflare blocks robots from the live site, as it should. Each page is opened on desktop and mobile, twice: once with the code that's published now, once with the new build. It stops if there are new errors, missing DKL elements, a different page height, or more than 1% of the screen looking different. Screenshots are kept for 14 days. With no saved pages yet, only the build checks run.
+     - **Intended look changes** (a new design approved in Figma): put `[design change]` in the commit message. Visual differences are then reported, not blocked. JavaScript errors and missing elements still block.
    - **Publish:** only if every check passed. Files go to the `gh-pages` branch and are served at `https://kmilan101.github.io/dkl-store-assets/`. A mirror copy on jsDelivr is refreshed as a backup.
 4. Visitors get the new files within about 10 minutes, which is the browser cache time.
 

@@ -4,6 +4,7 @@
 // correctly blocks robot visitors to the live site.
 // For every saved page, desktop and mobile:
 //   A = the page with the code that is published right now (files fetched from GitHub Pages)
+//       Intended look changes: put [design change] in the commit message; errors still fail.
 //   B = the same page with the NEW build from dist/ (served locally, nothing public yet)
 // Then it compares A and B: JavaScript errors, the shared-CSS sentinel, key DKL elements, and a pixel diff.
 // Any difference above the limits fails the run, so a broken build is never published.
@@ -60,7 +61,8 @@ function swap(html) {
 }
 
 const VIEWPORTS = { desktop: { width: 1440, height: 900 }, mobile: { width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 2 } };
-const failures = []; const report = [];
+const failures = []; const report = []; const notes = [];
+const ALLOW_VISUAL = /\[design change\]/i.test(process.env.COMMIT_MESSAGE || '');
 
 async function run(browser, url, vpName, variant, fixtureFile) {
   const ctx = await browser.newContext({ viewport: { width: VIEWPORTS[vpName].width, height: VIEWPORTS[vpName].height },
@@ -85,8 +87,10 @@ async function run(browser, url, vpName, variant, fixtureFile) {
   }
   await page.route(url, (r) => {
     if (r.request().resourceType() !== 'document') return r.continue();
+    // Both sides use the new Payhip snippets. A loads the files that are published right now (GitHub Pages);
+    // B loads the new build from dist/. So the test shows exactly what this push would change.
     let body = fixtureHtml;
-    if (variant === 'B') { try { body = swap(fixtureHtml); } catch (e) { swapError = e.message; } }
+    try { body = swap(fixtureHtml); } catch (e) { swapError = e.message; }
     r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body });
   });
   await page.goto(url, { waitUntil: 'load', timeout: 60000 });
@@ -126,7 +130,10 @@ for (const fx of fixtures) {
       if (b.facts.sentinel !== '1') bad.push('store.css sentinel missing');
       for (const k of ['h1', 'headerIcons', 'htmlClasses']) if (a.facts[k] !== b.facts[k]) bad.push(`${k} differs (published ${a.facts[k]} vs new ${b.facts[k]})`);
       if (Math.abs(a.facts.bodyHeight - b.facts.bodyHeight) > 100) bad.push(`page height differs (published ${a.facts.bodyHeight} vs new ${b.facts.bodyHeight})`);
-      if (ratio > MAX_DIFF) bad.push(`screen differs by ${(ratio * 100).toFixed(2)}% (limit ${(MAX_DIFF * 100).toFixed(1)}%)`);
+      if (ratio > MAX_DIFF) {
+        const msg = `screen differs by ${(ratio * 100).toFixed(2)}% (limit ${(MAX_DIFF * 100).toFixed(1)}%)`;
+        if (ALLOW_VISUAL) notes.push(`${tag}: ${msg}, allowed because the commit is marked [design change]`); else bad.push(msg + '. If this change is intended, push again with [design change] in the commit message');
+      }
       if (bad.length) failures.push(`${tag}: ${bad.join('; ')}`);
       report.push({ page: tag, diffPct: +(ratio * 100).toFixed(3), publishedErrors: a.errors.length, newErrors: newErrors.length, ...b.facts, result: bad.length ? 'FAIL' : 'ok' });
     } catch (e) { failures.push(`${tag}: test crashed: ${e.message}`); }
@@ -134,6 +141,7 @@ for (const fx of fixtures) {
 }
 await browser.close();
 console.table(report);
+if (notes.length) console.log('Intended design changes:\n- ' + notes.join('\n- '));
 fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify({ mode: MODE, report, failures }, null, 2));
 if (failures.length) { console.error('\nSAFETY TEST FAILED, nothing was published:\n- ' + failures.join('\n- ')); process.exit(1); }
 console.log(`\nSafety test passed (${MODE}).`);
