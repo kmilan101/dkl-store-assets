@@ -1,0 +1,6 @@
+/* Source: Payhip footer injection, live 19 Nov 2026 */
+/* DKL header icons v1 (17 Nov 2026): Payhip default header icons -> Anron icons from Figma 02b ICONS, one color Ink 500 #565D70, 2px stroke (governance). Lives in FOOTER injection. */
+.dkhi{display:block;width:20px;height:20px;flex:0 0 auto}
+.dkhi *{vector-effect:non-scaling-stroke}
+@media (max-width:767px){.dkhi{width:24px;height:24px}}
+.js-live-search-button-search>svg:not(.dkhi),.header-cart-icon-button>svg:not(.dkhi),.header-login-icon-link>svg:not(.dkhi),.header-burger-button>svg:not(.dkhi),.nav-mobile-close-button>svg:not(.dkhi){display:none!important}

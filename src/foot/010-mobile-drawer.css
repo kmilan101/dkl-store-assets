@@ -1,0 +1,44 @@
+/* Source: Payhip footer injection, live 19 Nov 2026 */
+/* DKL mobile drawer v2 calm (17 Nov): branded side menu built from the Payhip nav. Lives in FOOTER injection (header box is at its 65,535-byte limit) */
+html.dkd-on .nav-mobile-contents{width:min(88vw,380px)!important;max-width:380px!important;background:#fff!important;padding:0!important;font-family:nunito,sans-serif!important;color:#0B1023!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch;box-shadow:12px 0 32px rgba(11,16,35,.22)!important}
+html.dkd-on .nav-mobile-contents .nav-inner>.nav-inner-wrapper>.menu{display:none!important}
+/* 17 Nov fix: fit the visible screen on iPhone Safari so the login button is never under the toolbar */
+html.dkd-on .nav-mobile-block,html.dkd-on .nav-mobile-contents{top:0!important;bottom:auto!important;height:100vh!important;height:100dvh!important;max-height:100dvh!important}
+@supports (height:100svh){html.dkd-on .nav-mobile-contents{height:100svh!important;max-height:100svh!important}}
+html.dkd-on .nav-mobile-contents .nav-inner,html.dkd-on .nav-mobile-contents .nav-inner-wrapper{padding:0!important;margin:0!important}
+html.dkd-on .nav-mobile-close-button{position:absolute!important;top:14px!important;right:14px!important;left:auto!important;width:40px!important;height:40px!important;border-radius:50%!important;border:2px solid #0B1023!important;background:#fff!important;box-shadow:0 3px 0 #0B1023!important;display:grid!important;place-items:center!important;padding:0!important;z-index:5!important}
+html.dkd-on .nav-mobile-close-button svg{width:22px!important;height:22px!important}
+html.nav-mobile-show .dkl-bf,html.nav-mobile-show .dkl-cur{opacity:0!important;pointer-events:none!important}
+.dkd{display:flex;flex-direction:column;min-height:100vh;min-height:100svh}
+.dkd *{box-sizing:border-box}
+.dkd a{text-decoration:none!important;color:#0B1023!important}
+.dkd-top{display:flex;align-items:center;height:64px;padding:0 64px 0 20px}
+.dkd-top img{height:32px;width:auto;display:block}
+html.dkd-on .nav-mobile-close-button{box-shadow:none!important;border:1.5px solid #E2E5EC!important;top:12px!important;right:12px!important}
+.dkd-body{flex:1 0 auto;padding:8px 20px 24px;display:flex;flex-direction:column;gap:24px}
+.dkd-map{display:flex;align-items:center;gap:12px;padding:10px;border-radius:16px;background:#FFF6D1}
+.dkd-thumb{flex:none;position:relative;width:64px;height:48px;border-radius:10px;background-size:cover;background-position:center;overflow:hidden}
+.dkd-thumb img{position:absolute;width:58px;height:auto;left:3px;top:4px}
+.dkd-mt{flex:1;min-width:0;display:flex;flex-direction:column}
+.dkd-mt b{font-size:16px;line-height:21px;font-weight:800}
+.dkd-mt small{font-size:13px;line-height:18px;font-weight:600;color:#565D70}
+.dkd-chev{flex:none;display:flex}
+.dkd-hd{display:flex;align-items:center;justify-content:space-between}
+.dkd-ov{margin:0 0 10px!important;font-size:12px!important;line-height:16px!important;font-weight:800!important;letter-spacing:.08em;text-transform:uppercase;color:#565D70!important}
+.dkd-hd .dkd-ov{margin-bottom:10px!important}
+.dkd .dkd-all{margin-bottom:10px;font-size:14px;font-weight:700;color:#565D70!important;text-decoration:underline!important;text-underline-offset:3px}
+.dkd-tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dkd-tile{display:flex;align-items:center;gap:10px;min-height:52px;padding:8px 12px;border-radius:12px;background:#F4F5F8;font-size:15px;line-height:19px;font-weight:700}
+.dkd-tile:active{background:#E9EBF1}
+.dkd-ages{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.dkd-ages a{display:flex;align-items:center;justify-content:center;height:40px;border:1.5px solid #E2E5EC;border-radius:999px;background:#fff;font-size:15px;font-weight:700}
+.dkd-ages a:active{background:#FFF6D1;border-color:#FACA03}
+.dkd-list{list-style:none;margin:0;padding:8px 0 0;border-top:1px solid #E2E5EC}
+.dkd-row{display:flex;align-items:center;gap:14px;min-height:52px;padding:0 4px;font-size:17px;line-height:22px;font-weight:700}
+.dkd-row em{font-style:normal;font-size:12px;font-weight:800;color:#137A43;background:#DDF5E7;border-radius:999px;padding:2px 8px}
+.dkd-row:active{background:#F4F5F8;border-radius:10px}
+.dkd-foot{position:sticky;bottom:0;z-index:3;background:#fff;border-top:1px solid #E2E5EC;padding:12px 20px calc(14px + env(safe-area-inset-bottom))}
+.dkd-login{display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border:2px solid #0B1023;border-radius:12px;background:#02B5F7;box-shadow:0 3px 0 #0B1023;font-size:16px;font-weight:800;transition:transform .2s}
+.dkd-login:active{transform:translateY(2px);box-shadow:0 1px 0 #0B1023}
+.dkd svg *,html.dkd-on .nav-mobile-close-button svg *{vector-effect:non-scaling-stroke;stroke-width:2px}
+.dkd-tile svg,.dkd-row svg{flex:none;width:22px;height:22px}

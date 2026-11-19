@@ -1,0 +1,63 @@
+name: Build, safety test, publish
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 1 * * *'   # every night 06:47 IST: check the live site still loads the shared files cleanly
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Build (fails on JS errors, size budgets, Payhip box limits)
+        run: npm run build
+      - name: Install test browser
+        run: npx playwright install --with-deps chromium
+      - name: Safety test (new build vs live site, desktop + mobile)
+        if: github.event_name != 'schedule'
+        env:
+          MODE: preflight
+        run: npm test
+      - name: Nightly live check
+        if: github.event_name == 'schedule'
+        env:
+          MODE: live
+        run: npm test
+      - name: Keep screenshots and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: safety-test-${{ github.run_number }}
+          path: test-results
+          retention-days: 14
+      - name: Publish to GitHub Pages (gh-pages branch)
+        if: github.event_name != 'schedule'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          force_orphan: true
+          commit_message: "publish ${{ github.sha }}"
+      - name: Refresh the mirror copy (jsDelivr)
+        if: github.event_name != 'schedule'
+        run: |
+          for f in store.css head.css head.js foot.css foot.js; do
+            curl -s -o /dev/null -w "$f %{http_code}\n" "https://purge.jsdelivr.net/gh/kmilan101/dkl-store-assets@gh-pages/$f" || true
+          done

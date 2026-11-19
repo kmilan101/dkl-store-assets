@@ -1,0 +1,22 @@
+{
+  "baseUrl": "https://kmilan101.github.io/dkl-store-assets",
+  "fallbackUrl": "https://cdn.jsdelivr.net/gh/kmilan101/dkl-store-assets@gh-pages",
+  "minify": true,
+  "budgets": {
+    "store.css": 152000,
+    "head.css": 16000,
+    "head.js": 45000,
+    "foot.css": 30000,
+    "foot.js": 40000
+  },
+  "testPages": [
+    "/",
+    "/b/3nQSY",
+    "/b/t7WCV",
+    "/collection/coloring-pages",
+    "/collection/all",
+    "/contact",
+    "/teachers",
+    "/blog/learning-at-home"
+  ]
+}

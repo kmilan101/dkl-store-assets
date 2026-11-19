@@ -1,0 +1,23 @@
+{
+  "name": "dkl-store-assets",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node tests/smoke.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "acorn": "^8.19.0",
+    "esbuild": "^0.28.2"
+  },
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "pixelmatch": "^6.0.0",
+    "playwright": "^1.65.1",
+    "pngjs": "^7.0.0"
+  }
+}

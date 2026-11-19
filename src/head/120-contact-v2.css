@@ -1,0 +1,50 @@
+/* Source: Payhip header injection, live 19 Nov 2026 · original <style id="dkc-css"> */
+/* 46-contact-v2 (18 Nov 2026) · Figma: HI-FI · Contact · Desktop/Mobile (split card, form kit v2) */
+html.dkc-on .section-wrapper:has(.js-contact-us-form-block) .row{display:none!important}
+.section-wrapper:has(.dkc) .section-contents-wrapper{padding-left:16px!important;padding-right:16px!important;max-width:none!important}
+.section-wrapper:has(.dkc) .section-contents{max-width:1200px!important;margin:0 auto!important;padding:0!important}
+.dkc{box-sizing:border-box;display:grid;grid-template-columns:1fr 1fr;width:100%;margin:0 auto 96px;border:2px solid #0B1023;border-radius:24px;box-shadow:0 6px 0 #0B1023;overflow:hidden;background:#fff;font-family:Nunito,Arial,sans-serif;color:#0B1023;text-align:left}
+.dkc *{box-sizing:border-box}
+.dkc-panel{position:relative;min-height:640px;border-right:2px solid #0B1023;background:url("https://payhip.com/cdn-cgi/image/format=auto,width=400/https://pe56d.s3.amazonaws.com/o_1k7j5ce0i12jsg411g1u23s1361k.png") 62% calc(100% - 184px)/200px auto no-repeat,url("https://payhip.com/cdn-cgi/image/format=auto,width=420/https://pe56d.s3.amazonaws.com/o_1k7j5dbcq1n0psu81g4d1u36q6g44.png") 40px calc(100% - 40px)/210px auto no-repeat,url("https://payhip.com/cdn-cgi/image/format=auto,width=420/https://pe56d.s3.amazonaws.com/o_1k7j5dbcq1f6136l9gife6127542.png") calc(100% - 40px) calc(100% - 30px)/190px auto no-repeat,url("https://payhip.com/cdn-cgi/image/format=auto,width=1200/https://pe56d.s3.amazonaws.com/o_1k7j5endg1gfla7kkrpg5bg8o88.png") center/cover}
+.dkc-card{position:absolute;left:40px;top:40px;width:min(400px,calc(100% - 80px));background:#fff;border:2px solid #0B1023;border-radius:20px;box-shadow:0 6px 0 #0B1023;padding:24px 26px}
+.dkc .dkc-k{margin:0 0 10px;font:800 12px/16px Nunito,Arial,sans-serif;letter-spacing:.04em;color:#565D70}
+.dkc .dkc-t{margin:0 0 16px;font:800 28px/34px Nunito,Arial,sans-serif;color:#0B1023}
+.dkc-rows{list-style:none!important;margin:0!important;padding:0!important;display:flex;flex-direction:column;gap:12px}
+.dkc-rows li{display:flex;gap:10px;align-items:flex-start;margin:0;padding:0;font:700 15px/22px Nunito,Arial,sans-serif;color:#0B1023}
+.dkc-rows li::before{display:none!important}
+.dkc-rows svg{flex:0 0 20px;width:20px;height:20px;margin-top:1px}
+.dkc a{color:#0B1023!important;text-decoration:underline!important;font-weight:700}
+.dkc-form{padding:56px 64px;display:flex;flex-direction:column;gap:20px;min-width:0}
+.dkc .dkc-h{margin:0;font:800 36px/44px Nunito,Arial,sans-serif;color:#0B1023;letter-spacing:0;text-transform:none}
+.dkc .dkc-sub{margin:0;font:400 16px/24px Nunito,Arial,sans-serif;color:#565D70}
+.dkc .js-contact-us-form-block,.dkc form{margin:0;padding:0;width:100%}
+.dkc .form-row{display:grid!important;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 20px!important}
+.dkc .form-group{margin:0 0 20px!important;padding:0!important;width:auto!important;max-width:none!important;flex:none!important}
+.dkc .form-row .form-group{margin:0!important}
+.dkc .form-group label{display:block!important;margin:0 0 8px!important;font:800 15px/22px Nunito,Arial,sans-serif!important;color:#0B1023!important;text-transform:none!important}
+.dkc .form-control{width:100%!important;height:52px!important;padding:14px 16px!important;border:1.5px solid #B9BECA!important;border-radius:12px!important;font:400 16px/24px Nunito,Arial,sans-serif!important;color:#0B1023!important;background:#fff!important;box-shadow:none!important;transition:border-color .15s ease,box-shadow .15s ease}
+.dkc textarea.form-control{height:160px!important;min-height:120px;resize:vertical}
+.dkc .form-control::placeholder{color:#8A90A0;opacity:1}
+.dkc .form-control:hover{border-color:#0B1023!important}
+.dkc .form-control:focus{outline:none!important;border:2px solid #0B1023!important;box-shadow:0 0 0 3px #02B5F7!important}
+.dkc .error-message{margin:0 0 20px!important;padding:12px 16px!important;border:1.5px solid #F7382F!important;border-radius:12px!important;background:#FFF1F0!important;color:#B4231C!important;font:700 15px/22px Nunito,Arial,sans-serif!important}
+.dkc .button-wrapper{margin:0!important;padding:0!important;text-align:left}
+.dkc .button-wrapper .btn{box-sizing:border-box!important;width:100%!important;min-height:52px!important;height:auto!important;padding:14px 20px!important;display:flex!important;align-items:center!important;justify-content:center!important;background:#02B5F7!important;color:#0B1023!important;border:2px solid #0B1023!important;border-radius:12px!important;box-shadow:0 3px 0 #0B1023!important;font:800 16px/20px Nunito,Arial,sans-serif!important;text-transform:none!important;letter-spacing:0!important;transition:transform .12s ease,box-shadow .12s ease,filter .12s ease}
+.dkc .button-wrapper .btn:hover{filter:brightness(.96)}
+.dkc .button-wrapper .btn:active{transform:translateY(2px);box-shadow:0 1px 0 #0B1023!important}
+.dkc .button-wrapper .btn:focus-visible{outline:none!important;box-shadow:0 3px 0 #0B1023,0 0 0 3px #02B5F7!important}
+.dkc .btn .js-button-state-standard{display:inline-flex!important;align-items:center;gap:8px}
+.dkc .btn .js-button-state-standard svg{width:20px;height:20px;flex:0 0 20px}
+.dkc-div{height:1px;background:#E3E5EA;margin:0}
+.dkc .dkc-alt{margin:0;font:600 15px/22px Nunito,Arial,sans-serif;color:#565D70}
+.dkc .dkc-note{margin:0;font:600 13px/18px Nunito,Arial,sans-serif;color:#565D70}
+.dkc .dkc-note a{font-weight:600}
+@media (max-width:767px){
+.section-wrapper:has(.dkc) .section-contents-wrapper{padding-left:16px!important;padding-right:16px!important}
+.dkc{grid-template-columns:1fr;margin:16px auto 48px;border-radius:20px}
+.dkc-panel{min-height:150px;border-right:0;border-bottom:2px solid #0B1023;background:url("https://payhip.com/cdn-cgi/image/format=auto,width=300/https://pe56d.s3.amazonaws.com/o_1k7j5ce0i12jsg411g1u23s1361k.png") calc(100% - 24px) 20px/130px auto no-repeat,url("https://payhip.com/cdn-cgi/image/format=auto,width=300/https://pe56d.s3.amazonaws.com/o_1k7j5dbcq1n0psu81g4d1u36q6g44.png") 24px calc(100% - 12px)/120px auto no-repeat,url("https://payhip.com/cdn-cgi/image/format=auto,width=800/https://pe56d.s3.amazonaws.com/o_1k7j5endg1gfla7kkrpg5bg8o88.png") center/cover}
+.dkc-card{display:none}
+.dkc-form{padding:26px 20px 32px;gap:16px}
+.dkc .dkc-h{font-size:28px;line-height:34px}
+.dkc .form-row{grid-template-columns:1fr;gap:20px}
+}

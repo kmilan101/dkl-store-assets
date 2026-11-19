@@ -1,0 +1,25 @@
+/* Source: Payhip header injection, live 19 Nov 2026 */
+/* DKL 17 Nov: cursor + butterfly guide v13 story mode (18 Nov: faster, orbits cursor on CTA hover, leaves to next CTA) / v12.1 (hand-picked hooks list HOOKS; butterfly lives on the logo small/far, flies to the CTA growing to 44px/near, flies home; desktop: Weave K01 doodle arrow cursor, default o_1k7j8nivs1bbo1b4m1p6jaja1mc790.png, hover o_1k7j8nivs4ij6sm3991a1q1nfr91.png; butterfly = calm CTA guide on desktop AND mobile; flower bouquet removed). Butterfly sprite o_1k7i7f4c61moood215fa13fd17b2m.png */
+.dkl-bf{position:fixed;left:0;top:0;width:0;height:0;pointer-events:none;z-index:2147483646;opacity:0;transition:opacity .35s ease}
+.dkl-bf.on{opacity:1}
+.dkl-bf .bf{position:absolute;left:-22px;top:-22px;width:44px;height:44px;perspective:120px;will-change:transform}
+.dkl-bf .bf i{position:absolute;top:0;height:100%;background:url("https://payhip.com/cdn-cgi/image/format=auto,width=132/https://pe56d.s3.amazonaws.com/o_1k7i7f4c61moood215fa13fd17b2m.png") no-repeat;background-size:44px 44px;will-change:transform}
+.dkl-bf .l{left:0;width:22px;background-position:0 0!important;transform-origin:100% 50%}
+.dkl-bf .r{left:22px;width:22px;background-position:-22px 0!important;transform-origin:0 50%}
+.dkl-bf .b{left:16.5px;width:11px;background-position:-16.5px 0!important}
+.dkl-bf .sh{position:absolute;left:-11px;top:-3px;width:22px;height:6px;border-radius:50%;background:rgba(11,16,35,.18);filter:blur(2px);will-change:transform,opacity}
+.dkl-cur{position:fixed;left:0;top:0;width:44px;height:55px;pointer-events:none;z-index:2147483647;opacity:0;transition:opacity .15s ease;transform-origin:14px 13px;will-change:transform}
+.dkl-cur.on{opacity:1}
+.dkl-cur i{position:absolute;left:0;top:0;width:44px;height:55px;background-repeat:no-repeat;background-size:44px 55px;transition:opacity .12s ease}
+.dkl-cur .n{background-image:url("https://payhip.com/cdn-cgi/image/format=auto,width=128/https://pe56d.s3.amazonaws.com/o_1k7j8nivs1bbo1b4m1p6jaja1mc790.png")}
+.dkl-cur .h{background-image:url("https://payhip.com/cdn-cgi/image/format=auto,width=128/https://pe56d.s3.amazonaws.com/o_1k7j8nivs4ij6sm3991a1q1nfr91.png");opacity:0}
+.dkl-cur.hot .n{opacity:0}.dkl-cur.hot .h{opacity:1}
+.dkl-fx{position:fixed;left:0;top:0;pointer-events:none;z-index:2147482999;will-change:transform,opacity}
+.dkl-fx.ring{width:44px;height:44px;margin:-22px 0 0 -22px;border:2.5px solid #F974BC;border-radius:50%;background:none!important}
+.dkl-fx.dot{border-radius:50%}
+.dkl-fx.petal{border-radius:50% 50% 50% 0}
+.dkl-fx.star{clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+.dkl-fx.heart{clip-path:path("M5.5 10 C5.5 10 0 6.4 0 3 C0 1.3 1.3 0 2.8 0 C3.9 0 4.9 .6 5.5 1.6 C6.1 .6 7.1 0 8.2 0 C9.7 0 11 1.3 11 3 C11 6.4 5.5 10 5.5 10Z")}
+html.dkl-nocur,html.dkl-nocur *{cursor:none!important}
+html.dkl-nocur input:not([type=submit]):not([type=button]):not([type=checkbox]):not([type=radio]),html.dkl-nocur textarea,html.dkl-nocur select,html.dkl-nocur [contenteditable]{cursor:auto!important}
+@media (prefers-reduced-motion:reduce){.dkl-bf,.dkl-fx,.dkl-cur{display:none!important}html.dkl-nocur,html.dkl-nocur *{cursor:auto!important}}

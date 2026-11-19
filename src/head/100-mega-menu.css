@@ -1,0 +1,32 @@
+/* Source: Payhip header injection, live 19 Nov 2026 */
+/* DKL mega menu v2 (17 Nov): Shop dropdown styling + Doodle World map showcase */
+#header .header-nav-item.dropdown[data-dropdown-type="mega"] .header-dropdown-wrapper{border-top:1px solid #E2E5EC!important;border-bottom:2px solid #0B1023!important;box-shadow:0 14px 28px rgba(11,16,35,.12)!important;background:#fff!important}
+#header .header-nav-item.dropdown[data-dropdown-type="mega"] .dropdown-columns-wrapper{display:flex!important;align-items:flex-start!important;gap:40px!important;max-width:1200px!important;margin:0 auto!important;padding:28px 0 36px!important;overflow:visible!important;box-sizing:border-box!important}
+#header .header-nav-item.dropdown[data-dropdown-type="mega"] .dropdown-column{flex:0 1 auto!important;width:auto!important;min-width:0!important;max-width:220px!important;padding:0!important}
+#header .header-nav-item.dropdown[data-dropdown-type="mega"] .dropdown-image-column{order:9!important;flex:0 1 420px!important;width:420px!important;min-width:360px!important;max-width:420px!important;margin-left:auto!important;padding:0 0 6px!important;display:block!important}
+#header .dropdown-item-level1{margin:0 0 12px!important;padding:0!important}
+#header .dropdown-item-level1 a{font-family:nunito,sans-serif!important;font-size:13px!important;line-height:16px!important;font-weight:800!important;letter-spacing:.06em!important;text-transform:uppercase!important;color:#565D70!important;text-decoration:none!important}
+#header .dropdown-item-level2{margin:0!important;padding:0!important}
+#header .dropdown-item-level2 a{display:inline-block!important;padding:6px 0!important;font-family:nunito,sans-serif!important;font-size:17px!important;line-height:24px!important;font-weight:700!important;color:#0B1023!important;text-decoration:none!important;transition:transform .35s cubic-bezier(.22,1,.36,1),color .2s}
+#header .dropdown-item-level2 a:hover,#header .dropdown-item-level2 a:focus-visible{transform:translateX(4px);text-decoration:underline!important;text-underline-offset:4px;text-decoration-thickness:2px}
+#header .header-dropdown-wrapper .dkmm-show{display:block!important;position:relative!important;overflow:hidden!important;border:2px solid #0B1023!important;border-radius:18px!important;background:#fff!important;box-shadow:0 6px 0 #0B1023!important;text-decoration:none!important;color:#0B1023!important;transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .3s!important}
+#header .header-dropdown-wrapper .dkmm-show:hover{transform:translateY(-3px)!important;box-shadow:0 9px 0 #0B1023!important}
+#header .header-dropdown-wrapper .dkmm-scene{position:relative!important;display:block!important;height:168px!important;background-color:#5EC4EE!important;background-size:420px 210px!important;background-position:center!important;border-bottom:2px solid #0B1023!important;overflow:hidden!important}
+#header .header-dropdown-wrapper .dkmm-scene:after{content:"";position:absolute;inset:0;background:radial-gradient(70% 80% at 50% 70%,rgba(255,255,255,.22),rgba(255,255,255,0) 70%);pointer-events:none}
+#header .header-dropdown-wrapper .dkmm-scene img{position:absolute!important;display:block!important;height:auto!important;max-width:none!important;background:none!important;border:0!important;margin:0!important;transition:transform .8s cubic-bezier(.22,1,.36,1)!important}
+#header .header-dropdown-wrapper .dkmm-i1{width:184px!important;left:-18px!important;top:8px!important;z-index:1}
+#header .header-dropdown-wrapper .dkmm-i2{width:176px!important;right:-16px!important;top:10px!important;z-index:1}
+#header .header-dropdown-wrapper .dkmm-i3{width:206px!important;left:112px!important;top:38px!important;z-index:2}
+#header .header-dropdown-wrapper .dkmm-air{width:80px!important;left:206px!important;top:4px!important;z-index:3;animation:dkmmAir 6s ease-in-out infinite}
+@keyframes dkmmAir{0%,100%{transform:translate(0,0) rotate(-2deg)}50%{transform:translate(14px,4px) rotate(2deg)}}
+#header .header-dropdown-wrapper .dkmm-show:hover .dkmm-i1{transform:translateY(-5px) rotate(-1deg)!important}
+#header .header-dropdown-wrapper .dkmm-show:hover .dkmm-i2{transform:translateY(-4px) rotate(1deg)!important;transition-delay:.06s!important}
+#header .header-dropdown-wrapper .dkmm-show:hover .dkmm-i3{transform:translateY(-7px)!important;transition-delay:.12s!important}
+#header .header-dropdown-wrapper .dkmm-badge{position:absolute!important;left:12px!important;top:12px!important;z-index:4;display:inline-flex!important;align-items:center!important;gap:6px!important;height:28px!important;padding:0 10px!important;background:#fff!important;border:2px solid #0B1023!important;border-radius:999px!important;box-shadow:0 3px 0 #0B1023!important;font:800 12px/16px nunito,sans-serif!important;letter-spacing:.04em!important;text-transform:uppercase!important;color:#0B1023!important}
+#header .header-dropdown-wrapper .dkmm-body{display:flex!important;align-items:center!important;gap:14px!important;padding:14px 16px 16px!important}
+#header .header-dropdown-wrapper .dkmm-txt{flex:1 1 auto!important;min-width:0!important;display:flex!important;flex-direction:column!important;gap:2px!important}
+#header .header-dropdown-wrapper .dkmm-txt b{font:800 18px/24px nunito,sans-serif!important;color:#0B1023!important}
+#header .header-dropdown-wrapper .dkmm-txt span{font:600 14px/20px nunito,sans-serif!important;color:#565D70!important}
+#header .header-dropdown-wrapper .dkmm-cta{flex:none!important;display:inline-flex!important;align-items:center!important;gap:6px!important;height:44px!important;padding:0 16px!important;border-radius:12px!important;background:#02B5F7!important;border:2px solid #0B1023!important;box-shadow:0 3px 0 #0B1023!important;font:800 15px/20px nunito,sans-serif!important;color:#0B1023!important;white-space:nowrap!important;transition:transform .3s cubic-bezier(.22,1,.36,1)!important}
+#header .header-dropdown-wrapper .dkmm-show:hover .dkmm-cta{transform:translateX(3px)!important}
+@media (prefers-reduced-motion:reduce){#header .header-dropdown-wrapper .dkmm-air{animation:none!important}}
