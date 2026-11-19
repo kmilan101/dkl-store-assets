@@ -1,0 +1,187 @@
+{
+ "_help": "Blog posts. dates: slug -> date shown on the post and given to Google (YYYY-MM-DD). hooks: slug -> the 'Try it' box (Figma: 11 FOR APPROVAL · Blog batch 2). code = Payhip product id; the price is read live from the product page, never stored here. categories: topic slug -> name (blog index chips, ?topic=slug). postCategory: post slug -> topic slug.",
+ "dates": {
+  "logic-puzzles-for-kids": "2026-11-11",
+  "how-to-teach-a-child-to-draw": "2026-11-05",
+  "kids-and-ai-guide-for-parents": "2026-10-30",
+  "why-handwriting-is-important": "2026-10-24",
+  "screen-free-activities-for-kids": "2026-10-18",
+  "critical-thinking-activities-for-kids": "2026-10-12",
+  "how-to-develop-creativity-in-children": "2026-10-06",
+  "how-to-teach-a-child-to-write-their-name": "2026-09-30",
+  "screen-to-paper-creativity": "2026-09-24",
+  "skills-kids-need-for-the-future": "2026-09-18",
+  "spatial-reasoning-activities-for-kids": "2026-09-12",
+  "drawing-prompts-for-kids": "2026-09-06",
+  "fine-motor-activities-for-preschoolers": "2026-08-31",
+  "how-to-reduce-screen-time-for-kids": "2026-08-25",
+  "pattern-activities-for-preschoolers": "2026-08-19",
+  "does-screen-time-affect-creativity": "2026-08-13",
+  "how-to-teach-addition-to-kindergarteners": "2026-08-07",
+  "is-boredom-good-for-kids": "2026-08-01",
+  "number-sense-activities-for-preschoolers": "2026-07-26",
+  "math-games-for-kids-at-home": "2026-07-20"
+ },
+ "hooks": {
+  "how-to-develop-creativity-in-children": {
+   "code": "S8bMR",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "Give their ideas the skills to show up on paper",
+   "line": "How to Draw for Kids Mega Bundle · 660+ step-by-step lessons"
+  },
+  "screen-to-paper-creativity": {
+   "code": "3nQSY",
+   "over": "READY WHEN YOU ARE · INSTANT PDF",
+   "head": "Have paper ready the moment the screen goes off",
+   "line": "Complete Library · 13,800+ pages of coloring, drawing, story books and learning"
+  },
+  "screen-free-activities-for-kids": {
+   "code": "3nQSY",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "One download, a whole winter of screen-free afternoons",
+   "line": "Complete Library · 13,800+ pages of coloring, drawing, story books and learning"
+  },
+  "how-to-reduce-screen-time-for-kids": {
+   "code": "3nQSY",
+   "over": "READY WHEN YOU ARE · INSTANT PDF",
+   "head": "Fill your yes box once. Stop planning every day.",
+   "line": "Complete Library · 13,800+ pages of coloring, drawing, story books and learning"
+  },
+  "does-screen-time-affect-creativity": {
+   "code": "S8bMR",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "Protect making time with pages that are ready to go",
+   "line": "How to Draw for Kids Mega Bundle · 660+ step-by-step lessons"
+  },
+  "is-boredom-good-for-kids": {
+   "code": "E1RVa",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "Stock the boredom jar in one click",
+   "line": "Coloring Pages Mega Bundle · 3,400+ printable pages, ages 3–10"
+  },
+  "drawing-prompts-for-kids": {
+   "code": "bLpS6",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "Stuck on how to draw it? 280+ short lessons unlock it",
+   "line": "Easy How to Draw for Kids · 280+ step-by-step lessons, ages 4–6"
+  },
+  "how-to-teach-a-child-to-draw": {
+   "code": "bLpS6",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "Short lessons that turn simple shapes into animals",
+   "line": "Easy How to Draw for Kids · 280+ step-by-step lessons, ages 4–6"
+  },
+  "kids-and-ai-guide-for-parents": {
+   "code": "4zPwV",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "Stories first, then draw what happens next",
+   "line": "Kids Story Books Mega Bundle · 140 printable picture books"
+  },
+  "skills-kids-need-for-the-future": {
+   "code": "3nQSY",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "The basics and the creative stuff, in one download",
+   "line": "Complete Library · 13,800+ pages of coloring, drawing, story books and learning"
+  },
+  "why-handwriting-is-important": {
+   "code": "1VF9U",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "From tracing to writing from memory",
+   "line": "Alphabet Worksheets A–Z · tracing, flashcards and cursive, ages 3–6"
+  },
+  "critical-thinking-activities-for-kids": {
+   "code": "It2do",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "Daily thinking practice, ready to print",
+   "line": "Preschool Curriculum Bundle · 7,000+ pages for ages 4–6"
+  },
+  "logic-puzzles-for-kids": {
+   "code": "3nQSY",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "A puzzle folder for every rainy day",
+   "line": "Complete Library · 13,800+ pages of coloring, drawing, story books and learning"
+  },
+  "pattern-activities-for-preschoolers": {
+   "code": "It2do",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "Practice pages for after the hands-on play",
+   "line": "Preschool Curriculum Bundle · 7,000+ pages for ages 4–6"
+  },
+  "number-sense-activities-for-preschoolers": {
+   "code": "It2do",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "Turn counting talk into confident early math",
+   "line": "Preschool Curriculum Bundle · 7,000+ pages for ages 4–6"
+  },
+  "how-to-teach-addition-to-kindergarteners": {
+   "code": "3nQSY",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "From counting all to first sums",
+   "line": "Complete Library · 13,800+ pages of coloring, drawing, story books and learning"
+  },
+  "math-games-for-kids-at-home": {
+   "code": "3nQSY",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "Games first, then pages to practice",
+   "line": "Complete Library · 13,800+ pages of coloring, drawing, story books and learning"
+  },
+  "spatial-reasoning-activities-for-kids": {
+   "code": "3nQSY",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "Dot-to-dots, mazes and shapes in one download",
+   "line": "Complete Library · 13,800+ pages of coloring, drawing, story books and learning"
+  },
+  "fine-motor-activities-for-preschoolers": {
+   "code": "It2do",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "Little-hands practice for every day",
+   "line": "Preschool Curriculum Bundle · 7,000+ pages for ages 4–6"
+  },
+  "how-to-teach-a-child-to-write-their-name": {
+   "code": "1VF9U",
+   "over": "TRY IT TONIGHT · INSTANT PDF",
+   "head": "Their name first, then the whole alphabet",
+   "line": "Alphabet Worksheets A–Z · tracing, flashcards and cursive, ages 3–6"
+  }
+ },
+ "categories": {
+  "creativity-drawing": "Creativity & Drawing",
+  "screen-free-living": "Screen-Free Living",
+  "kids-and-ai": "Kids & AI",
+  "thinking-math": "Thinking & Math",
+  "reading-writing": "Reading & Writing",
+  "printables-planning": "Printables & Planning"
+ },
+ "postCategory": {
+  "how-to-develop-creativity-in-children": "creativity-drawing",
+  "drawing-prompts-for-kids": "creativity-drawing",
+  "how-to-teach-a-child-to-draw": "creativity-drawing",
+  "screen-to-paper-creativity": "screen-free-living",
+  "screen-free-activities-for-kids": "screen-free-living",
+  "how-to-reduce-screen-time-for-kids": "screen-free-living",
+  "does-screen-time-affect-creativity": "screen-free-living",
+  "is-boredom-good-for-kids": "screen-free-living",
+  "kids-and-ai-guide-for-parents": "kids-and-ai",
+  "skills-kids-need-for-the-future": "kids-and-ai",
+  "why-handwriting-is-important": "reading-writing",
+  "fine-motor-activities-for-preschoolers": "reading-writing",
+  "how-to-teach-a-child-to-write-their-name": "reading-writing",
+  "critical-thinking-activities-for-kids": "thinking-math",
+  "logic-puzzles-for-kids": "thinking-math",
+  "pattern-activities-for-preschoolers": "thinking-math",
+  "number-sense-activities-for-preschoolers": "thinking-math",
+  "how-to-teach-addition-to-kindergarteners": "thinking-math",
+  "math-games-for-kids-at-home": "thinking-math",
+  "spatial-reasoning-activities-for-kids": "thinking-math",
+  "printable-worksheets-for-3-year-olds": "printables-planning",
+  "what-order-to-teach-the-alphabet": "reading-writing",
+  "kindergarten-readiness-checklist": "printables-planning",
+  "how-to-teach-sight-words-at-home": "reading-writing",
+  "how-to-print-worksheets-at-home-without-wasting-ink": "printables-planning",
+  "dot-to-dot-printables-by-age": "thinking-math",
+  "screen-free-christmas-activities-for-kids": "screen-free-living",
+  "benefits-of-coloring-for-child-development": "creativity-drawing",
+  "how-many-worksheets-a-day-for-a-preschooler": "printables-planning",
+  "homeschool-printables-for-beginners": "printables-planning"
+ }
+}

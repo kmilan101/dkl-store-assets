@@ -24,6 +24,7 @@ function bundleJs(dir, name) {
   let out = `/* DKL ${name}.js · built ${new Date().toISOString()} · github.com/kmilan101/dkl-store-assets */\n`;
   out += RUNTIME;
   if (name === 'head') out += read('src/runtime/prelude.js') + '\n';
+  if (name === 'foot') out += BLOG_JS;
   for (const f of files) {
     const code = read(f);
     try { acorn.parse(code, { ecmaVersion: 'latest', sourceType: 'script' }); }
@@ -52,6 +53,17 @@ const readJson = (f) => { try { return JSON.parse(read(f)); } catch (e) { fail(`
 const STORES = readJson('src/data/stores.json');
 const CATS = readJson('src/data/categories.json').categories;
 const SEARCH = readJson('src/data/search.json').popularSearches;
+const BLOG = readJson('src/data/blog.json');
+for (const [slug, d] of Object.entries(BLOG.dates || {})) {
+  if (!/^[a-z0-9-]+$/.test(slug)) fail(`blog.json: date slug "${slug}" must be lowercase letters, numbers and dashes`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(d) || isNaN(new Date(d))) fail(`blog.json: "${slug}" date "${d}" must be YYYY-MM-DD`);
+}
+for (const [slug, h] of Object.entries(BLOG.hooks || {})) {
+  if (!/^[A-Za-z0-9]{5}$/.test(h.code || '')) fail(`blog.json: hook "${slug}" code must be a Payhip product id`);
+  if (!h.over || !h.head || !h.line) fail(`blog.json: hook "${slug}" needs over, head and line`);
+  if (/\$\d/.test(h.line)) fail(`blog.json: hook "${slug}" line must not contain a price (it is read live)`);
+}
+const BLOG_JS = `/* DKL blog data (from src/data/blog.json, foot only) */\nwindow.DKL=window.DKL||{};window.DKL.blog=${JSON.stringify({ dates: BLOG.dates, hooks: BLOG.hooks, categories: BLOG.categories || {}, postCategory: BLOG.postCategory || {} })};\n`;
 const storeKeys = Object.keys(STORES).filter(k => !k.startsWith('_'));
 const productKeys = Object.keys(STORES.US.products);
 for (const k of storeKeys) for (const [name, id] of Object.entries(STORES[k].products)) {

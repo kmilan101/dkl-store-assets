@@ -1,0 +1,20 @@
+/* 110 blog post "Try it" hook box (19 Nov 2026) · Figma: 11 FOR APPROVAL · Blog batch 2 (desktop 720 wide box, mobile 04 Product CTA)
+   Scoped under #page-section-blog-post so the post-body text and link rules don't override it. */
+#page-section-blog-post:has(.dkh) .dkb-cta{display:none!important}
+#page-section-blog-post .dkh{display:flex;align-items:center;gap:24px;background:#f5f1ea;border-radius:20px;padding:24px;margin:32px 0;box-sizing:border-box}
+#page-section-blog-post .dkh img{width:160px!important;height:160px!important;max-width:none;flex:none;object-fit:cover;border-radius:12px;margin:0!important;box-shadow:none}
+#page-section-blog-post .dkh-t{display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-width:0}
+#page-section-blog-post .dkh .dkh-o,#page-section-blog-post .dkh .dkh-h,#page-section-blog-post .dkh .dkh-l{margin:0!important;padding:0;font-family:Nunito,sans-serif!important}
+#page-section-blog-post .dkh .dkh-o{font-size:13px!important;line-height:16px!important;font-weight:800!important;letter-spacing:.06em;text-transform:uppercase;color:#565d70!important}
+#page-section-blog-post .dkh .dkh-h{font-size:22px!important;line-height:30px!important;font-weight:800!important;color:#0b1023!important}
+#page-section-blog-post .dkh .dkh-l{font-size:14px!important;line-height:20px!important;font-weight:400!important;color:#565d70!important}
+#page-section-blog-post .dkh a.dkh-b{display:inline-flex;align-items:center;justify-content:center;margin:0;padding:14px 24px;border:2px solid #0b1023;border-radius:12px;background:#02b5f7;color:#0b1023!important;font-family:Nunito,sans-serif!important;font-size:16px!important;line-height:20px!important;font-weight:800!important;text-decoration:none!important;transition:transform .15s ease,box-shadow .15s ease}
+#page-section-blog-post .dkh a.dkh-b:hover{transform:translateY(-1px);box-shadow:0 3px 0 #0b1023}
+#page-section-blog-post .dkh a.dkh-b:focus-visible{outline:3px solid #b363f7;outline-offset:2px}
+@media (max-width:640px){
+ #page-section-blog-post .dkh{flex-direction:column;align-items:flex-start;gap:12px;padding:24px 20px;border-radius:12px;border:2px solid #0b1023}
+ #page-section-blog-post .dkh img{width:120px!important;height:120px!important}
+ #page-section-blog-post .dkh .dkh-h{font-size:20px!important;line-height:28px!important}
+ #page-section-blog-post .dkh-t{align-self:stretch}
+ #page-section-blog-post .dkh a.dkh-b{align-self:stretch}
+}
