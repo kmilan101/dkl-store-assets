@@ -32,13 +32,14 @@ function bundleJs(dir, name) {
     if (/document\.currentScript|document\.write\(/.test(code)) fail(`${f} uses currentScript or document.write, which behave differently in a shared file`);
     out += `\n/* ${path.basename(f)} */\ntry{\n${code}\n}catch(e){try{console.error('[DKL ${name}] ${path.basename(f)}',e)}catch(_){}}\n`;
   }
+  out = out.replace(RUNTIME, RUNTIME + jsIcons(out, name + '.js'));
   return { out, files };
 }
 
 // ---------- CSS ----------
 function bundleCss(files) {
   let out = '';
-  for (const f of files) out += `\n/* ${path.basename(f)} */\n` + read(f) + '\n';
+  for (const f of files) out += `\n/* ${path.basename(f)} */\n` + cssIcons(read(f), f) + '\n';
   return out;
 }
 
@@ -93,6 +94,59 @@ D.id=function(k){var s=D.site.stores,m=s[D.store]&&s[D.store].products[k];return
 D.link=function(k){var i=D.id(k);return i?'/b/'+i:''};})();
 `;
 
+// ---------- Icons (src/data/icons.json, from Anron Icons 10 via tools/icons.mjs) ----------
+// CSS:  {{icon:name}}  {{icon:name:filled}}  {{icon:name:#0B1023}}  {{icon:name:filled:#ffffffb3}}  -> url("data:image/svg+xml,...")
+// JS:   DKL.icon('name', {style:'filled', color:'#565D70', size:20, cls:'x', label:'Close'})  -> '<svg ...>' string
+//       Names used through a variable must be listed in a comment:  /* icons: award, folder */
+// Raw SVG anywhere else in src/ fails the build, so every icon on the site stays the library icon.
+const ICONS = readJson('src/data/icons.json').icons;
+const ICON_DEFAULT = '#565D70'; // icon/interface
+const iconInner = (name, style, where) => {
+  const ic = ICONS[name];
+  if (!ic) fail(`${where} uses icon "${name}", which is not in src/data/icons.json. Add it: node tools/icons.mjs add <anron>/svg ${name}`);
+  if (!ic[style]) fail(`${where}: icon "${name}" has no ${style} style`);
+  return ic[style];
+};
+const iconSvg = (name, style, color, where) =>
+  `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" style="color:${color}">${iconInner(name, style, where)}</svg>`;
+const svgDataUri = (svg) => 'data:image/svg+xml,' + svg.replace(/"/g, "'").replace(/[<>#%{}\n]/g, encodeURIComponent);
+function cssIcons(css, where) {
+  return css.replace(/\{\{icon:([a-z0-9-]+)((?::(?:line|filled|#[0-9a-fA-F]{3,8}))*)\}\}/g, (all, name, opts) => {
+    const parts = opts.split(':').filter(Boolean);
+    const style = parts.find(p => p === 'line' || p === 'filled') || 'line';
+    const color = parts.find(p => p.startsWith('#')) || ICON_DEFAULT;
+    return `url("${svgDataUri(iconSvg(name, style, color, where))}")`;
+  });
+}
+function jsIcons(code, where) {
+  const want = {}; // name -> Set(styles)
+  const add = (n, st) => { (want[n] = want[n] || new Set()).add(st || 'line'); };
+  for (const m of code.matchAll(/DKL\.icon(?:El|Url)?\(\s*['"]([a-z0-9-]+)['"]\s*(?:,\s*\{([^}]*)\})?/g)) add(m[1], (m[2] || '').match(/style:\s*['"](filled|line)['"]/)?.[1]);
+  for (const m of code.matchAll(/\/\*\s*icons:\s*([a-z0-9:, -]+)\*\//g)) m[1].split(',').map(s => s.trim()).filter(Boolean).forEach(s => { const [n, st] = s.split(':'); add(n, st); });
+  if (!Object.keys(want).length) return '';
+  const set = {};
+  for (const n of Object.keys(want).sort()) { set[n] = {}; for (const st of want[n]) set[n][st] = iconInner(n, st, where); }
+  return `/* DKL icons used in ${where} (src/data/icons.json) */
+(function(){var D=window.DKL=window.DKL||{};D.ic=Object.assign(D.ic||{},${JSON.stringify(set)});
+D.icon=D.icon||function(n,o){o=o||{};var i=D.ic[n];if(!i)return '';var s=o.size||24,c=o.color?' style="color:'+o.color+'"':'';
+return '<svg xmlns="http://www.w3.org/2000/svg" class="dki dki-'+n+(o.cls?' '+o.cls:'')+'" width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none"'+c+(o.label?' role="img" aria-label="'+o.label+'"':' aria-hidden="true" focusable="false"')+'>'+(i[o.style||'line']||i.line)+'</svg>'};
+D.iconEl=D.iconEl||function(n,o){var t=document.createElement('template');t.innerHTML=D.icon(n,o);return t.content.firstChild};
+D.iconUrl=D.iconUrl||function(n,o){o=o||{};var i=D.ic[n];if(!i)return 'none';var s='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" style="color:'+(o.color||'#565D70')+'">'+(i[o.style||'line']||i.line)+'</svg>';return 'url("data:image/svg+xml,'+encodeURIComponent(s)+'")'};})();
+`;
+}
+// Guard: only the library. A raw <path> or SVG data URI in src/ means someone pasted an icon by hand.
+(function guardRawSvg() {
+  const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
+  for (const f of walk('src')) {
+    if (f.startsWith(path.join('src', 'data'))) continue;
+    const lines = read(f).split('\n');
+    lines.forEach((l, i) => {
+      if (/dkl-allow-svg:/.test(l)) return; // a non-icon drawing (logo, illustration) with a stated reason
+      if (/data:image\/svg\+xml|<path\b|<circle\b|<polygon\b|\sd=\\?["']M/.test(l)) fail(`${f}:${i + 1} has a hand-pasted SVG. Use {{icon:name}} in CSS or DKL.icon('name') in JS (src/data/icons.json).`);
+    });
+  }
+})();
+
 // ---------- store.css template: generated collection-tab rules + per-store product ids ----------
 function storeCssFromTemplate(css) {
   const P = '#page-section-collection .collection-tabs-wrapper li';
@@ -136,7 +190,7 @@ async function emit(file, code, loader) {
 }
 
 // store.css = the Payhip "Store CSS" box content, plus a sentinel the head script checks
-const storeCss = storeCssFromTemplate(read('src/store.css')) + '\n:root{--dkl-store-css:1}\n';
+const storeCss = storeCssFromTemplate(cssIcons(read('src/store.css'), 'src/store.css')) + '\n:root{--dkl-store-css:1}\n';
 await emit('store.css', storeCss, 'css');
 
 const head = bundleJs('src/head', 'head');

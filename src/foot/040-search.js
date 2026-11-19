@@ -23,7 +23,7 @@
  var timers=new WeakMap();
  
  function dksrClear(){var blk=document.querySelector('.live-search-block.active');var inp=blk&&blk.querySelector('.js-live-search-input');var b=document.querySelector('.dksr-clear');
-  if(!b){b=document.createElement('button');b.type='button';b.className='dksr-clear';b.setAttribute('aria-label','Clear search');b.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#565D70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>';document.body.appendChild(b);
+  if(!b){b=document.createElement('button');b.type='button';b.className='dksr-clear';b.setAttribute('aria-label','Clear search');b.innerHTML=DKL.icon('cross',{color:'#565D70'});document.body.appendChild(b);
    b.addEventListener('mousedown',function(e){e.preventDefault()});
    b.addEventListener('click',function(){var a=document.querySelector('.live-search-block.active .js-live-search-input');if(!a)return;a.value='';a.dispatchEvent(new Event('input',{bubbles:true}));a.dispatchEvent(new KeyboardEvent('keyup',{bubbles:true}));a.focus();dksrClear()})}
   var has=!!(inp&&inp.value.trim());document.documentElement.classList.toggle('dksr-has',has);

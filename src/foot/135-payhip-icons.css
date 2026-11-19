@@ -1,0 +1,6 @@
+/* DKL Payhip icons: library icons that replaced Payhip theme icons (see 135-payhip-icons.js) */
+.dkpi{display:inline-block;flex:0 0 auto;vertical-align:middle}
+.dki *{vector-effect:non-scaling-stroke}
+.js-header-nav-item-link-level0>.dkpi{margin-left:4px}
+span.icon.dripicons-checkmark.dkpi-done::before{content:none!important}
+span.icon.dripicons-checkmark.dkpi-done{display:inline-flex;align-items:center}

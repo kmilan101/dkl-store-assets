@@ -2,11 +2,9 @@
 /* DKL 16 Nov: Shop all "Hi, we're Doodle Kids Land!" follow section -> brand card (Figma 160:1058 desktop / 160:2522 mobile) */
 (function(){try{var d=document,B='https://payhip.com/cdn-cgi/image/format=auto,width=320/https://pe56d.s3.amazonaws.com/';
 var F=[['o_1k7gabdq81aahhnq1ecl1ger1en0l.jpg','Milo'],['o_1k7gabdq8dqc124k1k6mpdjr7dm.jpg','Komi'],['o_1k7gabdq89qs1bi76kc17ieuvmn.jpg','Figu']];
-var A=' stroke="#0B1023" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
-var I={instagram:'<path d="M18 6c0 .28-.22.5-.5.5S17 6.28 17 6m1 0c0-.28-.22-.5-.5-.5S17 5.72 17 6m1 0h-1m-1 6a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"'+A+'></path><path d="M14 2h-4c-2.8 0-4.2 0-5.27.54a5 5 0 0 0-2.19 2.19C2 5.8 2 7.2 2 10v4c0 2.8 0 4.2.54 5.27a5 5 0 0 0 2.19 2.19C5.8 22 7.2 22 10 22h4c2.8 0 4.2 0 5.27-.54a5 5 0 0 0 2.19-2.19C22 18.2 22 16.8 22 14v-4c0-2.8 0-4.2-.54-5.27a5 5 0 0 0-2.19-2.19C18.2 2 16.8 2 14 2Z"'+A+'></path>',
-pinterest:'<path d="m11 11-1.19 4.6m-3.03-2.51C5.5 9.5 8.5 6.44 12 6.44c3.07 0 5.5 2.3 5.5 5.06 0 3.97-4.51 6.22-7.69 4.1m0 0-1.48 5.7"'+A+'></path><path d="M19.06 19.07a9.94 9.94 0 0 0 0-14.14 10.06 10.06 0 0 0-14.2 0c-5.05 5.03-3.1 13.82 3.41 16.38 3.61 1.41 7.87.67 10.79-2.24Z"'+A+'></path>',
-youtube:'<path d="M10 15l5-3-5-3v6Z"'+A+'></path><path d="M22 12c0-8-1-9-10-9S2 4 2 12s1 9 10 9 10-1 10-9Z"'+A+'></path>',
-facebook:'<path d="M13 22V11.2c0-1.12 0-1.68.22-2.11a2 2 0 0 1 .87-.87C14.52 8 15.08 8 16.2 8H17m-7 6h7"'+A+'></path><path d="M14 2h-4c-2.8 0-4.2 0-5.27.54a5 5 0 0 0-2.19 2.19C2 5.8 2 7.2 2 10v4c0 2.8 0 4.2.54 5.27a5 5 0 0 0 2.19 2.19C5.8 22 7.2 22 10 22h4c2.8 0 4.2 0 5.27-.54a5 5 0 0 0 2.19-2.19C22 18.2 22 16.8 22 14v-4c0-2.8 0-4.2-.54-5.27a5 5 0 0 0-2.19-2.19C18.2 2 16.8 2 14 2Z"'+A+'></path>'};
+/* Platform logos from the library (Icon/Platform · Line · ink); LinkedIn shows up once its link is set in Payhip */
+/* icons: instagram, pinterest, youtube, facebook, linkedin */
+var I={instagram:1,pinterest:1,youtube:1,facebook:1,linkedin:1};
 var css=".dkf{background:#fff!important}.dkf .section-background{display:none!important}"+
 ".dkf .section-contents-wrapper{padding:80px 120px!important;max-width:none!important;width:100%!important;box-sizing:border-box!important}"+
 ".dkf .section-contents{max-width:1200px!important;width:100%!important;margin:0 auto!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:56px;background:#FCF4E4!important;border:2px solid #0B1023;border-radius:24px;box-shadow:8px 8px 0 #0B1023;padding:56px 64px!important;text-align:left!important;box-sizing:border-box}"+
@@ -42,7 +40,7 @@ var ch=d.createElement('div');ch.className='dkf-chips';ch.innerHTML='<span class
 var ft=t.querySelector('.follow-button .text');if(ft)ft.textContent='Follow for new printables';
 var fw=t.querySelector('.follow-wrapper'),sw=s.querySelector('.social-wrapper');var row=d.createElement('div');row.className='dkf-actions';
 if(fw){fw.parentNode.insertBefore(row,fw);row.appendChild(fw)}else{t.appendChild(row)}
-if(sw){row.appendChild(sw);sw.querySelectorAll('a.social-link').forEach(function(a){var k=(a.className.match(/social-link-([a-z]+)/)||[])[1];if(I[k])a.innerHTML='<svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">'+I[k]+'</svg>'})}
+if(sw){row.appendChild(sw);sw.querySelectorAll('a.social-link').forEach(function(a){var k=(a.className.match(/social-link-([a-z]+)/)||[])[1];if(I[k])a.innerHTML=DKL.icon(k,{color:'#0B1023'})})}
 var n=d.createElement('p');n.className='dkf-note';n.textContent='Follow to get an email when we add new printables. Unsubscribe anytime.';row.parentNode.insertBefore(n,row.nextSibling);
 });}
 var k=0;function tick(){run();if(++k<20)setTimeout(tick,500)}if(d.readyState==='loading')d.addEventListener('DOMContentLoaded',tick);else tick();

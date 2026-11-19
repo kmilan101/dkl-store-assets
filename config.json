@@ -5,8 +5,12 @@
   "budgets": {
     "store.css": 152000,
     "head.css": 16000,
-    "head.js": 45000,
+    "head.js": 50000,
     "foot.css": 35000,
-    "foot.js": 52000
+    "foot.js": 64000
+  },
+  "_budgetNotes": {
+    "head.js": "45000 -> 50000 on 19 Nov 2026: library icons (src/data/icons.json) now ship with the scripts that use them instead of hand-pasted copies.",
+    "foot.js": "52000 -> 64000 on 19 Nov 2026: library icons ship with the scripts that use them, plus the Payhip theme icon swap (135-payhip-icons.js)."
   }
 }
