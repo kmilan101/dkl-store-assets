@@ -103,7 +103,7 @@
         P2=/(shop (all|now|the)|start here|see (all|bundles|the bundle)|view (bundle|all)|browse|explore)/i;
     function inView(el,pad){if(!el||!el.isConnected)return false;var bb=el.closest&&el.closest('.dkp-buybar');if(bb)return bb.classList.contains('on');var r=el.getBoundingClientRect();return r.width>0&&r.top>pad+40&&r.bottom<innerHeight-pad&&r.left>=-2&&r.right<=innerWidth+2;}
     // hand-picked hooks (top priority). Add a selector here to make the butterfly guide visitors to it.
-    var HOOKS='.dkt-card[data-id="E6DFU"],.dkl .dkl-btn[href$="/b/3nQSY"],.dkm-card .dkm-up,.dkm-card .dkm-btn,.dkb-cta-b';
+    var HOOKS='.dkt-card[data-id="'+DKL.id('teacherBundle')+'"],.dkl .dkl-btn[href$="'+DKL.link('completeLibrary')+'"],.dkm-card .dkm-up,.dkm-card .dkm-btn,.dkb-cta-b';
     function pick(){
       try{[].forEach.call(document.querySelectorAll(HOOKS),function(e){e.setAttribute('data-dkl-hook','')})}catch(x){}
       var els=document.querySelectorAll('[data-dkl-hook],a,button,[role=button],input[type=submit]'),best=null,bs=-1,cy=innerHeight*.5;

@@ -1,8 +1,8 @@
 /* Source: Payhip footer injection, live 19 Nov 2026 */
 (function(){
- var POP=[['Coloring pages','coloring'],['Alphabet','alphabet'],['Dinosaurs','dinosaur'],['Ages 4–6','ages 4'],['Christmas','christmas'],['Story books','story']];
+ var POP=DKL.site.popularSearches.map(function(p){return [p.label,p.query]});
  var NONE=[['Animals','animal'],['Coloring pages','coloring'],['Free pages','free'],['Story books','story']];
- var COL=[[/colou?r/i,'/collection/coloring-pages','Coloring pages'],[/draw/i,'/collection/how-to-draw','How to draw'],[/story|book/i,'/collection/story-books','Story books'],[/work ?sheet|trac|alphabet|letter|number|math|count/i,'/collection/learning-worksheets','Worksheets'],[/bundle|mega/i,'/collection/mega-bundles','Mega bundles'],[/teach|class/i,'/collection/for-teachers','For teachers'],[/\b2\b|\b3\b|toddler/i,'/collection/ages-2-4','Ages 2–4'],[/\b4\b|\b5\b|preschool/i,'/collection/ages-4-6','Ages 4–6'],[/\b6\b|\b7\b|kinder/i,'/collection/ages-6-8','Ages 6–8'],[/\b8\b|\b9\b|1[0-2]/i,'/collection/ages-8-12','Ages 8–12']];
+ var COL=DKL.site.categories.filter(function(c){return c.searchKeywords}).map(function(c){return [new RegExp(c.searchKeywords,'i'),'/collection/'+c.slug,c.name]});
  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&','<':'<','>':'>','"':'"'}[c]})}
  function recent(){try{return JSON.parse(localStorage.getItem('dksRecent')||'[]')}catch(e){return[]}}
  function remember(q){q=(q||'').trim();if(q.length<2)return;try{var r=recent().filter(function(x){return x.toLowerCase()!==q.toLowerCase()});r.unshift(q);localStorage.setItem('dksRecent',JSON.stringify(r.slice(0,3)))}catch(e){}}

@@ -1,0 +1,21 @@
+{
+  "_help": "One entry per store. Products the site code links to by name (Complete Library button, free sample badge, etc.). Fill the India ids when those products exist in the India store.",
+  "US": {
+    "host": "doodlekidsland.com",
+    "currency": "USD",
+    "products": {
+      "completeLibrary": "3nQSY",
+      "freeSample": "t8MFO",
+      "teacherBundle": "E6DFU"
+    }
+  },
+  "IN": {
+    "host": "in.doodlekidsland.com",
+    "currency": "INR",
+    "products": {
+      "completeLibrary": "",
+      "freeSample": "",
+      "teacherBundle": ""
+    }
+  }
+}

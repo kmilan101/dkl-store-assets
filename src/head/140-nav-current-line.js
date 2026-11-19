@@ -4,7 +4,7 @@
 var p=(location.pathname.replace(/\/+$/,'')||'/').toLowerCase();
 function pathOf(a){try{return new URL(a.href,location.href).pathname.replace(/\/+$/,'').toLowerCase();}catch(e){return '';}}
 var cur=null,shop=null;links.forEach(function(a){var h=pathOf(a);if(h==='/collection/all')shop=a;if(h&&h!=='/'&&(p===h||p.indexOf(h+'/')===0))cur=a;});
-if(!cur){var free=links.filter(function(a){return pathOf(a)==='/b/t8mfo';})[0];var blog=links.filter(function(a){return pathOf(a).indexOf('/blog')===0;})[0];
+if(!cur){var free=links.filter(function(a){return pathOf(a)===DKL.link('freeSample').toLowerCase();})[0];var blog=links.filter(function(a){return pathOf(a).indexOf('/blog')===0;})[0];
 if(blog&&p.indexOf('/blog')===0)cur=blog;else if(free&&(p==='/my-name'||p==='/draw-it-alive'))cur=free;else if(shop&&(p.indexOf('/collection')===0||p.indexOf('/b/')===0||p==='/explore'))cur=shop;}
 document.documentElement.classList.add('dkn-on');
 var line=document.createElement('span');line.className='dkn-line is-cur';line.setAttribute('aria-hidden','true');

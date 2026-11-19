@@ -1,0 +1,17 @@
+{
+  "_help": "Every collection (category) on the stores. To add a category: create it in Payhip with this slug, add one entry here, push. tab: main = always shown on collection pages, in tabOrder; hidden = only shown when it is the open collection; always = always shown, no fixed place. searchKeywords = regular expression (case-insensitive) that suggests this category in search; leave empty for none.",
+  "categories": [
+    { "slug": "all", "name": "All printables", "tab": "always", "searchKeywords": "" },
+    { "slug": "coloring-pages", "name": "Coloring pages", "tab": "main", "tabOrder": 1, "searchKeywords": "colou?r" },
+    { "slug": "how-to-draw", "name": "How to draw", "tab": "main", "tabOrder": 2, "searchKeywords": "draw" },
+    { "slug": "story-books", "name": "Story books", "tab": "main", "tabOrder": 3, "searchKeywords": "story|book" },
+    { "slug": "learning-worksheets", "name": "Worksheets", "tab": "main", "tabOrder": 4, "searchKeywords": "work ?sheet|trac|alphabet|letter|number|math|count" },
+    { "slug": "mega-bundles", "name": "Mega bundles", "tab": "hidden", "searchKeywords": "bundle|mega" },
+    { "slug": "for-teachers", "name": "For teachers", "tab": "hidden", "searchKeywords": "teach|class" },
+    { "slug": "ages-2-4", "name": "Ages 2–4", "tab": "hidden", "searchKeywords": "\\b2\\b|\\b3\\b|toddler" },
+    { "slug": "ages-4-6", "name": "Ages 4–6", "tab": "hidden", "searchKeywords": "\\b4\\b|\\b5\\b|preschool" },
+    { "slug": "ages-6-8", "name": "Ages 6–8", "tab": "hidden", "searchKeywords": "\\b6\\b|\\b7\\b|kinder" },
+    { "slug": "ages-8-12", "name": "Ages 8–12", "tab": "hidden", "searchKeywords": "\\b8\\b|\\b9\\b|1[0-2]" },
+    { "slug": "bestsellers", "name": "Bestsellers", "tab": "hidden", "searchKeywords": "" }
+  ]
+}

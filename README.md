@@ -19,6 +19,22 @@ Both stores load the same files from here. Change a file in `src/`, push, and bo
 
 **Changing a Payhip box** (rare): before switching, Claude checks the live pages side by side in a real Chrome window, once with the current code and once with the new code.
 
+## Common changes (no Payhip work needed)
+
+| You want to… | Change this | Then |
+|---|---|---|
+| Add a new category | Create it in Payhip (collection + menu link), then add one line to `src/data/categories.json` | Push. Collection tabs and search suggestions update on both stores |
+| Change a category's tab order, or hide a tab | `tab` / `tabOrder` in `src/data/categories.json` | Push |
+| Change popular searches | `src/data/search.json` | Push |
+| Point a button at a different product (Complete Library, free sample, teacher bundle) | `src/data/stores.json` | Push |
+| Add products | Payhip (both stores) plus the master product sheet. No code change | Nothing to push |
+| Add a new site feature (a new section script or style) | Add a numbered file to `src/head/` (loads early) or `src/foot/` (loads at the end), e.g. `src/foot/110-gift-banner.js` | Push. It's included automatically, in number order |
+| Remove a feature | Delete its file | Push |
+| Style only one store | `html[data-dkl-store="IN"] …` in CSS, or `if (DKL.store === 'IN')` in JS | Push |
+| Launch a third store (e.g. UK) | Add it to `src/data/stores.json` and the store check in `build.mjs` (`D.store`) | Paste the same 3 Payhip snippets into the new store |
+
+Each data file has a `_help` line explaining its fields. The build stops with a plain-English error if a data file is wrong (bad slug, duplicate category, invalid product id, broken search pattern).
+
 ## What lives where
 
 | Folder | What | Loaded by |
@@ -28,7 +44,10 @@ Both stores load the same files from here. Change a file in `src/`, push, and bo
 | `src/head/*.js` → `head.js` | Header scripts (SEO helpers, icons, prices, cursor, finder filter, nav line, logo) | Payhip header code |
 | `src/foot/*` → `foot.css`, `foot.js` | Mobile drawer, search, header icons, cart drawer, footer signup, footer sky | Payhip footer code |
 | `src/inline/` | Kept in Payhip on purpose: GTM, Meta Pixel guard, hero preload, meta tags (must run first) | Pasted into Payhip |
-| `src/runtime/prelude.js` | Detects the store (`DKL.store` = `US` or `IN`, `<html data-dkl-store>`) and loads the mirror if store.css failed | Start of head.js |
+| `src/data/*.json` | Stores (product ids per store), categories, popular searches | Built into both head.js and foot.js as `DKL.site`, plus the collection-tab rules in store.css |
+| `src/runtime/prelude.js` | Sets `<html data-dkl-store>` and loads the mirror if store.css failed | Start of head.js |
+
+**Helpers available to every script:** `DKL.store` (`US`/`IN`), `DKL.id('freeSample')` (product id in the current store), `DKL.link('completeLibrary')` (`/b/<id>`), `DKL.site.categories`, `DKL.site.popularSearches`.
 
 **Store-specific styling:** use `html[data-dkl-store="IN"] .thing { … }` in CSS, or `if (DKL.store === 'IN')` in JS.
 

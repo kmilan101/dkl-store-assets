@@ -1,0 +1,11 @@
+{
+  "_help": "Popular searches shown when the search box opens. label = what people see, query = what gets searched.",
+  "popularSearches": [
+    { "label": "Coloring pages", "query": "coloring" },
+    { "label": "Alphabet", "query": "alphabet" },
+    { "label": "Dinosaurs", "query": "dinosaur" },
+    { "label": "Ages 4–6", "query": "ages 4" },
+    { "label": "Christmas", "query": "christmas" },
+    { "label": "Story books", "query": "story" }
+  ]
+}

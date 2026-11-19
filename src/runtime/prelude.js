@@ -1,7 +1,5 @@
 /* DKL runtime prelude: which store is this, and is the shared store CSS loaded? */
 try{
-  window.DKL = window.DKL || {};
-  DKL.store = /^in\./i.test(location.hostname) ? 'IN' : 'US';
   document.documentElement.setAttribute('data-dkl-store', DKL.store);
   /* Safety net: if store.css (loaded by @import in Payhip's Store CSS box) failed, load the mirror copy. */
   (function(){

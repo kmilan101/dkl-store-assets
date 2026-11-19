@@ -22,6 +22,7 @@ fs.mkdirSync(path.join(OUT, 'payhip'), { recursive: true });
 function bundleJs(dir, name) {
   const files = list(dir, '.js');
   let out = `/* DKL ${name}.js · built ${new Date().toISOString()} · github.com/kmilan101/dkl-store-assets */\n`;
+  out += RUNTIME;
   if (name === 'head') out += read('src/runtime/prelude.js') + '\n';
   for (const f of files) {
     const code = read(f);
@@ -46,6 +47,71 @@ async function minify(code, loader) {
   return r.code;
 }
 
+// ---------- Site data (src/data): stores, categories, popular searches ----------
+const readJson = (f) => { try { return JSON.parse(read(f)); } catch (e) { fail(`${f} is not valid JSON: ${e.message}`); } };
+const STORES = readJson('src/data/stores.json');
+const CATS = readJson('src/data/categories.json').categories;
+const SEARCH = readJson('src/data/search.json').popularSearches;
+const storeKeys = Object.keys(STORES).filter(k => !k.startsWith('_'));
+const productKeys = Object.keys(STORES.US.products);
+for (const k of storeKeys) for (const [name, id] of Object.entries(STORES[k].products)) {
+  if (id && !/^[A-Za-z0-9]{5}$/.test(id)) fail(`stores.json: ${k}.${name} "${id}" is not a Payhip product id (5 letters/numbers)`);
+  if (!id) console.warn(`NOTE: stores.json ${k}.${name} is empty, so the ${k} store falls back to the US product (fill it before that store launches)`);
+}
+const slugs = new Set();
+for (const c of CATS) {
+  if (!/^[a-z0-9-]+$/.test(c.slug)) fail(`categories.json: slug "${c.slug}" must be lowercase letters, numbers and dashes`);
+  if (slugs.has(c.slug)) fail(`categories.json: slug "${c.slug}" is listed twice`);
+  slugs.add(c.slug);
+  if (!['main', 'hidden', 'always'].includes(c.tab)) fail(`categories.json: "${c.slug}" tab must be main, hidden or always`);
+  if (c.tab === 'main' && !Number.isInteger(c.tabOrder)) fail(`categories.json: main tab "${c.slug}" needs a whole-number tabOrder`);
+  if (c.searchKeywords) { try { new RegExp(c.searchKeywords, 'i'); } catch (e) { fail(`categories.json: "${c.slug}" searchKeywords is not a valid pattern: ${e.message}`); } }
+}
+for (const p of SEARCH) if (!p.label || !p.query) fail('search.json: every popular search needs a label and a query');
+
+const SITE = {
+  stores: Object.fromEntries(storeKeys.map(k => [k, { host: STORES[k].host, currency: STORES[k].currency, products: STORES[k].products }])),
+  categories: CATS.map(c => ({ slug: c.slug, name: c.name, searchKeywords: c.searchKeywords || '' })),
+  popularSearches: SEARCH,
+};
+const RUNTIME = `/* DKL site data (from src/data) */
+(function(){var D=window.DKL=window.DKL||{};if(D.site)return;D.site=${JSON.stringify(SITE)};
+D.store=/^in\\./i.test(location.hostname)?'IN':'US';
+D.id=function(k){var s=D.site.stores,m=s[D.store]&&s[D.store].products[k];return m||s.US.products[k]||''};
+D.link=function(k){var i=D.id(k);return i?'/b/'+i:''};})();
+`;
+
+// ---------- store.css template: generated collection-tab rules + per-store product ids ----------
+function storeCssFromTemplate(css) {
+  const P = '#page-section-collection .collection-tabs-wrapper li';
+  const has = (slug) => `:has(a[href$="/collection/${slug}"])`;
+  const hidden = CATS.filter(c => c.tab === 'hidden').reverse(); // order inside a selector list does not matter
+  const main = CATS.filter(c => c.tab === 'main').sort((a, b) => a.tabOrder - b.tabOrder);
+  const always = CATS.filter(c => c.tab === 'always');
+  const hideRule = hidden.map(c => `${P}${has(c.slug)}:not(:has(a.active))`).join(',') + '{display:none !important}';
+  const orderRules = main.map(c => `${P}${has(c.slug)}{order:${c.tabOrder}}`).join('') +
+    `${P}:has(a.active)` + [...always, ...main].map(c => `:not(${has(c.slug)})`).join('') + `{order:${Math.max(0, ...main.map(c => c.tabOrder)) + 1}}`;
+  for (const m of ['/*@@COLLECTION_TABS_HIDE@@*/', '/*@@COLLECTION_TABS_ORDER@@*/']) if (!css.includes(m)) fail(`src/store.css lost the marker ${m}`);
+  css = css.replace('/*@@COLLECTION_TABS_HIDE@@*/', hidden.length ? hideRule : '').replace('/*@@COLLECTION_TABS_ORDER@@*/', orderRules);
+  // {{id:name}} inside a selector: one copy of that selector per store that has the product
+  css = css.replace(/(^|})([^{}]*\{\{id:[a-zA-Z]+\}\}[^{}]*)\{/g, (all, pre, sel) => {
+    const parts = []; let depth = 0, cur = '';
+    for (const ch of sel) { if (ch === '(' || ch === '[') depth++; if (ch === ')' || ch === ']') depth--; if (ch === ',' && depth === 0) { parts.push(cur); cur = ''; } else cur += ch; }
+    parts.push(cur);
+    const out = [];
+    for (const p of parts) {
+      const m = p.match(/\{\{id:([a-zA-Z]+)\}\}/);
+      if (!m) { out.push(p); continue; }
+      if (!productKeys.includes(m[1])) fail(`src/store.css uses unknown product {{id:${m[1]}}}`);
+      const ids = [...new Set(storeKeys.map(k => STORES[k].products[m[1]]).filter(Boolean))];
+      for (const id of ids) out.push(p.replace(m[0], id));
+    }
+    return pre + out.join(',') + '{';
+  });
+  if (/\{\{id:/.test(css)) fail('src/store.css has a {{id:...}} token outside a selector');
+  return css;
+}
+
 const results = {};
 async function emit(file, code, loader) {
   const min = await minify(code, loader);
@@ -58,7 +124,7 @@ async function emit(file, code, loader) {
 }
 
 // store.css = the Payhip "Store CSS" box content, plus a sentinel the head script checks
-const storeCss = read('src/store.css') + '\n:root{--dkl-store-css:1}\n';
+const storeCss = storeCssFromTemplate(read('src/store.css')) + '\n:root{--dkl-store-css:1}\n';
 await emit('store.css', storeCss, 'css');
 
 const head = bundleJs('src/head', 'head');

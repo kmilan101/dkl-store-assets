@@ -1,7 +1,7 @@
 /* Source: Payhip footer injection, live 19 Nov 2026 */
 /* DKL cart v1 (17 Nov 2026): Payhip cart drawer styled to Figma "Cart drawer". Icons: Anron Line, Ink 500. */
 (function(){
- var MEGA='/b/3nQSY',AIR='https://payhip.com/cdn-cgi/image/format=auto,width=160/https://pe56d.s3.amazonaws.com/o_1k7j5ce0i12jsg411g1u23s1361k.png';
+ var MEGA=DKL.link('completeLibrary'),AIR='https://payhip.com/cdn-cgi/image/format=auto,width=160/https://pe56d.s3.amazonaws.com/o_1k7j5ce0i12jsg411g1u23s1361k.png';
  var X='<svg class="dkcx" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#565D70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18L18 6M6 6L18 18"></path></svg>';
  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&','<':'<','>':'>','"':'"'}[c]})}
  function run(){var c=document.querySelector('.js-cart-container');if(!c)return;
