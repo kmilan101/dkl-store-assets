@@ -33,6 +33,8 @@ Both stores load the same files from here. Change a file in `src/`, push, and bo
 | Remove a feature | Delete its file | Push |
 | Style only one store | `html[data-dkl-store="IN"] …` in CSS, or `if (DKL.store === 'IN')` in JS | Push |
 | Launch a third store (e.g. UK) | Add it to `src/data/stores.json` and the store check in `build.mjs` (`D.store`) | Paste the same 3 Payhip snippets into the new store |
+| Use an icon | CSS: `{{icon:chevron-down}}`, `{{icon:star:filled:#F48102}}`. JS: `DKL.icon('search',{size:20,color:'#565D70'})`, `DKL.iconEl(...)`, `DKL.iconUrl(...)` | Push. Only icons in `src/data/icons.json` exist |
+| Add a new icon | `node tools/icons.mjs add <unzipped Anron>/svg <name>` (zip: SSD `01 - Brand/07 - Licensed Assets/`). Pick it per Foundation page 06 section 2 | Push. Never paste SVG paths: the build refuses them |
 
 Each data file has a `_help` line explaining its fields. The build stops with a plain-English error if a data file is wrong (bad slug, duplicate category, invalid product id, broken search pattern).
 
