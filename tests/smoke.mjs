@@ -40,10 +40,11 @@ function cut(html, startMarks, endMark, last) {
 
 function swap(html) {
   // Store CSS box
-  const sid = '<style type="text/css" id="store-page-custom-css-style-tag">';
-  const s = html.indexOf(sid); if (s < 0) throw new Error('Store CSS tag not found');
+  const sm = html.match(/<style[^>]*id=["']store-page-custom-css-style-tag["'][^>]*>/);
+  if (!sm) throw new Error('Store CSS tag not found');
+  const s = sm.index + sm[0].length;
   const se = html.indexOf('</style>', s);
-  html = html.slice(0, s + sid.length) + '\n' + NEW.storeBox + '\n' + html.slice(se);
+  html = html.slice(0, s) + '\n' + NEW.storeBox + '\n' + html.slice(se);
   // Header injection: new markers if already switched, otherwise the old first/last lines
   let h = cut(html, ['<!-- DKL:HEADER:START'], '<!-- DKL:HEADER:END -->') || cut(html, ['<!-- Google Tag Manager (DKL'], '</head>');
   if (!h) throw new Error('Header injection not found');
@@ -63,6 +64,7 @@ async function run(browser, url, vpName, variant) {
     reducedMotion: 'reduce', timezoneId: 'America/New_York', locale: 'en-US' });
   const page = await ctx.newPage();
   const errors = [];
+  let swapError = null;
   page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
   page.on('console', (m) => { if (m.type() === 'error' && /\[DKL/.test(m.text())) errors.push('console: ' + m.text()); });
   page.on('requestfailed', (r) => { if (r.url().startsWith(BASE)) errors.push('failed to load ' + r.url()); });
@@ -78,7 +80,14 @@ async function run(browser, url, vpName, variant) {
     await page.route(url, async (r) => {
       if (r.request().resourceType() !== 'document') return r.continue();
       const resp = await r.fetch();
-      r.fulfill({ response: resp, body: swap(await resp.text()), headers: { ...resp.headers(), 'content-type': 'text/html; charset=utf-8' } });
+      const raw = await resp.text();
+      try {
+        r.fulfill({ response: resp, body: swap(raw), headers: { ...resp.headers(), 'content-type': 'text/html; charset=utf-8' } });
+      } catch (e) {
+        swapError = `${e.message} (status ${resp.status()}, ${raw.length} chars, title "${(raw.match(/<title>([^<]*)/) || [])[1] || ''}")`;
+        fs.writeFileSync(path.join(OUT, 'raw-' + Date.now() + '.html'), raw);
+        r.fulfill({ response: resp, body: raw });
+      }
     });
   }
   await page.goto(url, { waitUntil: 'load', timeout: 60000 });
@@ -92,6 +101,7 @@ async function run(browser, url, vpName, variant) {
     bodyHeight: Math.round(document.documentElement.scrollHeight / 50) * 50,
   }));
   const shot = await page.screenshot({ fullPage: false });
+  if (swapError) errors.push('could not swap code: ' + swapError);
   await ctx.close();
   return { errors, facts, shot };
 }
