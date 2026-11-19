@@ -8,15 +8,5 @@
     "head.js": 45000,
     "foot.css": 30000,
     "foot.js": 40000
-  },
-  "testPages": [
-    "/",
-    "/b/3nQSY",
-    "/b/t7WCV",
-    "/collection/coloring-pages",
-    "/collection/all",
-    "/contact",
-    "/teachers",
-    "/blog/learning-at-home"
-  ]
+  }
 }

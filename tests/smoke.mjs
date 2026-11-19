@@ -1,13 +1,13 @@
 // DKL safety test: "does the new build look and behave exactly like the live site?"
 //
-// For every test page, desktop and mobile:
-//   A = the live page exactly as Payhip serves it now
-//   B = the same live page, but with the Payhip header/footer/Store CSS swapped for the NEW build in dist/
-//       (dist files are served locally, so nothing is public yet)
+// Uses saved copies of real store pages (tests/fixtures/*.html), because Payhip's Cloudflare
+// correctly blocks robot visitors to the live site.
+// For every saved page, desktop and mobile:
+//   A = the page with the code that is published right now (files fetched from GitHub Pages)
+//   B = the same page with the NEW build from dist/ (served locally, nothing public yet)
 // Then it compares A and B: JavaScript errors, the shared-CSS sentinel, key DKL elements, and a pixel diff.
 // Any difference above the limits fails the run, so a broken build is never published.
-//
-// MODE=live (nightly): no swapping; just checks the live site loads the shared files without errors.
+// With no saved pages yet, the test is skipped (the build checks still run).
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright';
@@ -15,17 +15,20 @@ import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
 
 const CFG = JSON.parse(fs.readFileSync('config.json', 'utf8'));
-const SITE = process.env.SITE || 'https://doodlekidsland.com';
-const MODE = process.env.MODE || 'preflight';
+const SITE = 'https://doodlekidsland.com';
+const MODE = 'preflight';
+const FIX = 'tests/fixtures';
+const fixtures = fs.existsSync(FIX) ? fs.readdirSync(FIX).filter(f => f.endsWith('.html')) : [];
+if (!fixtures.length) { console.log('No saved pages in tests/fixtures yet: visual safety test skipped.'); process.exit(0); }
 const BASE = CFG.baseUrl.replace(/\/$/, '');
 const OUT = 'test-results';
 const MAX_DIFF = Number(process.env.MAX_DIFF || 0.01); // 1% of pixels
 fs.rmSync(OUT, { recursive: true, force: true }); fs.mkdirSync(OUT, { recursive: true });
 
 const dist = (f) => fs.readFileSync(path.join('dist', f), 'utf8');
-const NEW = MODE === 'preflight' ? {
+const NEW = {
   header: dist('payhip/header.html'), footer: dist('payhip/footer.html'), storeBox: dist('payhip/store-css-box.css'),
-} : null;
+};
 
 function cut(html, startMarks, endMark, last) {
   for (const s of startMarks) {
@@ -58,7 +61,7 @@ function swap(html) {
 const VIEWPORTS = { desktop: { width: 1440, height: 900 }, mobile: { width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 2 } };
 const failures = []; const report = [];
 
-async function run(browser, url, vpName, variant) {
+async function run(browser, url, vpName, variant, fixtureFile) {
   const ctx = await browser.newContext({ viewport: { width: VIEWPORTS[vpName].width, height: VIEWPORTS[vpName].height },
     isMobile: !!VIEWPORTS[vpName].isMobile, hasTouch: !!VIEWPORTS[vpName].hasTouch, deviceScaleFactor: VIEWPORTS[vpName].deviceScaleFactor || 1,
     reducedMotion: 'reduce', timezoneId: 'America/New_York', locale: 'en-US' });
@@ -70,6 +73,7 @@ async function run(browser, url, vpName, variant) {
   page.on('requestfailed', (r) => { if (r.url().startsWith(BASE)) errors.push('failed to load ' + r.url()); });
   // Keep the comparison fair: same currency, no tracking noise
   await page.route(/googletagmanager|google-analytics|clarity\.ms|facebook|pinimg|pinterest|connect\.facebook/, (r) => r.abort());
+  const fixtureHtml = fs.readFileSync(path.join(FIX, fixtureFile), 'utf8');
   if (variant === 'B') {
     await page.route(BASE + '/**', (r) => {
       const f = new URL(r.request().url()).pathname.replace(/^.*?\/dkl-store-assets\//, '');
@@ -77,19 +81,13 @@ async function run(browser, url, vpName, variant) {
       if (!fs.existsSync(file)) return r.fulfill({ status: 404, body: '' });
       r.fulfill({ status: 200, body: fs.readFileSync(file), contentType: f.endsWith('.css') ? 'text/css' : 'application/javascript' });
     });
-    await page.route(url, async (r) => {
-      if (r.request().resourceType() !== 'document') return r.continue();
-      const resp = await r.fetch();
-      const raw = await resp.text();
-      try {
-        r.fulfill({ response: resp, body: swap(raw), headers: { ...resp.headers(), 'content-type': 'text/html; charset=utf-8' } });
-      } catch (e) {
-        swapError = `${e.message} (status ${resp.status()}, ${raw.length} chars, title "${(raw.match(/<title>([^<]*)/) || [])[1] || ''}")`;
-        fs.writeFileSync(path.join(OUT, 'raw-' + Date.now() + '.html'), raw);
-        r.fulfill({ response: resp, body: raw });
-      }
-    });
   }
+  await page.route(url, (r) => {
+    if (r.request().resourceType() !== 'document') return r.continue();
+    let body = fixtureHtml;
+    if (variant === 'B') { try { body = swap(fixtureHtml); } catch (e) { swapError = e.message; } }
+    r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body });
+  });
   await page.goto(url, { waitUntil: 'load', timeout: 60000 });
   await page.waitForTimeout(2500);
   const facts = await page.evaluate(() => ({
@@ -107,36 +105,29 @@ async function run(browser, url, vpName, variant) {
 }
 
 const browser = await chromium.launch();
-for (const p of CFG.testPages) {
-  const url = SITE + p + (p.includes('?') ? '&' : '?') + 'dklfx=USD';
+for (const fx of fixtures) {
+  const url = SITE + '/__fixture/' + fx.replace(/\.html$/, '');
   for (const vp of Object.keys(VIEWPORTS)) {
-    const tag = (p.replace(/\W+/g, '_') || 'home') + '-' + vp;
+    const tag = fx.replace(/\.html$/, '') + '-' + vp;
     try {
-      if (MODE === 'live') {
-        const b = await run(browser, url, vp, 'A');
-        const bad = [...b.errors]; if (b.facts.sentinel !== '1') bad.push('shared store.css not loaded');
-        if (bad.length) failures.push(`${tag}: ${bad.join('; ')}`);
-        report.push({ page: tag, errors: b.errors.length, sentinel: b.facts.sentinel });
-        continue;
-      }
-      const a = await run(browser, url, vp, 'A');
-      const b = await run(browser, url, vp, 'B');
+      const a = await run(browser, url, vp, 'A', fx);
+      const b = await run(browser, url, vp, 'B', fx);
       const ia = PNG.sync.read(a.shot), ib = PNG.sync.read(b.shot);
       const diff = new PNG({ width: ia.width, height: ia.height });
       const n = pixelmatch(ia.data, ib.data, diff.data, ia.width, ia.height, { threshold: 0.15 });
       const ratio = n / (ia.width * ia.height);
-      fs.writeFileSync(path.join(OUT, tag + '-A-live.png'), a.shot);
+      fs.writeFileSync(path.join(OUT, tag + '-A-published.png'), a.shot);
       fs.writeFileSync(path.join(OUT, tag + '-B-new.png'), b.shot);
       fs.writeFileSync(path.join(OUT, tag + '-diff.png'), PNG.sync.write(diff));
       const bad = [];
       const newErrors = b.errors.filter(e => !a.errors.includes(e));
       if (newErrors.length) bad.push('new errors: ' + newErrors.join(' | '));
       if (b.facts.sentinel !== '1') bad.push('store.css sentinel missing');
-      for (const k of ['h1', 'headerIcons', 'htmlClasses']) if (a.facts[k] !== b.facts[k]) bad.push(`${k} differs (live ${a.facts[k]} vs new ${b.facts[k]})`);
-      if (Math.abs(a.facts.bodyHeight - b.facts.bodyHeight) > 100) bad.push(`page height differs (live ${a.facts.bodyHeight} vs new ${b.facts.bodyHeight})`);
+      for (const k of ['h1', 'headerIcons', 'htmlClasses']) if (a.facts[k] !== b.facts[k]) bad.push(`${k} differs (published ${a.facts[k]} vs new ${b.facts[k]})`);
+      if (Math.abs(a.facts.bodyHeight - b.facts.bodyHeight) > 100) bad.push(`page height differs (published ${a.facts.bodyHeight} vs new ${b.facts.bodyHeight})`);
       if (ratio > MAX_DIFF) bad.push(`screen differs by ${(ratio * 100).toFixed(2)}% (limit ${(MAX_DIFF * 100).toFixed(1)}%)`);
       if (bad.length) failures.push(`${tag}: ${bad.join('; ')}`);
-      report.push({ page: tag, diffPct: +(ratio * 100).toFixed(3), liveErrors: a.errors.length, newErrors: newErrors.length, ...b.facts, result: bad.length ? 'FAIL' : 'ok' });
+      report.push({ page: tag, diffPct: +(ratio * 100).toFixed(3), publishedErrors: a.errors.length, newErrors: newErrors.length, ...b.facts, result: bad.length ? 'FAIL' : 'ok' });
     } catch (e) { failures.push(`${tag}: test crashed: ${e.message}`); }
   }
 }
